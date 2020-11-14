@@ -1,0 +1,275 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    font-family: monospace;
+}
+.row
+{
+    max-width: 1200px;
+    margin: auto;
+}
+
+.main-nav
+{
+    float: right;
+    list-style: none;
+    margin-top: 30px;
+}
+.main-nav li
+{
+    display: inline-block;
+}
+
+.main-nav li.active a
+{
+    border: 1px solid white;
+    
+}
+
+.main-nav li a:hover
+{
+    border: 1px solid white;
+}
+
+
+.main-nav li a
+{
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+}
+
+.named
+{
+    position: absolute;
+    width: 1200px;
+    margin-left: auto;
+    margin-top: auto;
+    
+}
+
+
+h1
+{
+    color: white;
+    text-transform: uppercase;
+    font-size: 70px;
+    text-align: center;
+    margin-top: 275px;
+    
+}
+
+.button
+{
+    margin-top: 30px;
+    margin-left: 440px;
+}
+
+.btn
+{
+    border: 1px solid white;
+    padding: 10px 30px;
+    color: white;
+    text-decoration: none;
+    margin-right: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+.btn-one
+{
+    background-color: darkorange;
+    font-family: "Roboto", sans-serif;
+}
+
+.btn-two
+{
+    font-family: "Roboto", sans-serif;
+}
+
+
+.main-nav li a:hover
+{
+    background-color: #c9af98;
+    transition: all 0.5s ease-in;
+    
+        
+}
+
+.named:hover2
+{
+  background-color: #c9af98;
+  transition: all 0.5s ease-in;
+}
+
+.logo img
+{
+    width: 150px;
+    height: auto;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.left
+{
+  display: block;
+  margin-left: 50px ;
+  margin-right: auto;
+}
+
+.right
+{
+  display: block;
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+h6
+{
+  color:white
+}
+
+.boxed {
+  background-color: #6B7A8F;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+   
+    border: 15px solid #c9af98;
+    padding: 25px;
+    
+  border: 5px solid #c9af98 ;
+}
+
+.boxed2
+{
+   background-color: #6B7A8F;
+  
+  width: 90%;
+   
+    border: 15px solid #c9af98;
+    padding: 25px;
+    
+  border: 5px solid #c9af98 ;
+  margin-right: 100px;
+}
+.column {
+  float: right;
+  width: 33.33%;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.leftFloat
+{
+  float: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rightFloat
+{
+  float: right;
+  width: 50%;
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+.rightFloat4
+{
+  float: right;
+  width: 40%;
+  margin-left: auto;
+  margin-right: 150px;
+}
+
+.centerFloat3
+{
+  float: center;
+  width: 33%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.leftFloat3
+{
+  float: left;
+  width: 33%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.rightFloat3
+{
+  float: right;
+  width: 33%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+a{
+  color: #c9af98
+}
+
+a:link
+{
+  color: #c9af98;
+}
+
+a:visited {
+  color: #c9af98;
+}
+
+/* mouse over link */
+a:hover {
+  color: #ffc0cb;
+}
+
+.picspacing
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.boxed3
+{
+   background-color: #6B7A8F;
+  
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+   
+    border: 15px solid #c9af98;
+    padding: 25px;
+    
+  border: 5px solid #c9af98 ;
+}
+
+.header
+{
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(https://images2.alphacoders.com/686/686676.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+   
+
+}
