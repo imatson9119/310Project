@@ -19,6 +19,12 @@ body
     float: right;
     list-style: none;
     margin-top: 30px;
+
+
+    position: absolute;
+    top: 60%;
+    left: 50%;
+  transform: translate(-50%, -50%);
 }
 .main-nav li
 {
@@ -27,13 +33,13 @@ body
 
 .main-nav li.active a
 {
-    border: 1px solid white;
+    border: 3px solid white;
     
 }
 
 .main-nav li a:hover
 {
-    border: 1px solid white;
+    border: 3px solid white;
 }
 
 
@@ -41,9 +47,9 @@ body
 {
     color: white;
     text-decoration: none;
-    padding: 5px 20px;
+    padding: 6px 30px;
     font-family: "Roboto", sans-serif;
-    font-size: 15px;
+    font-size: 35px;
 }
 
 .named
@@ -55,6 +61,39 @@ body
     
 }
 
+.mainTitle
+{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 150px;
+  color: white;
+  color: #758ba3;
+}
+
+.mainSubTitle
+{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  font-size: 50px;
+  color: #808C6C;
+  color: #6e4e38;
+  color: white;
+  
+}
+
+.mainPic
+{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  
+  transform: translate(-50%, -50%);
+}
 
 h1
 {
@@ -96,7 +135,9 @@ h1
 
 .main-nav li a:hover
 {
-    background-color: #c9af98;
+    //background-color: #c9af98;
+    //background-color: #566573; 
+    background-color: #758ba3;
     transition: all 0.5s ease-in;
     
         

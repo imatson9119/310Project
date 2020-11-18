@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "project310-6e7fe"
+  },
+  "targets": {
+    "project310-6e7fe": {
+      "hosting": {
+        "Project310": [
+          "project310-6e7fe"
+        ]
+      }
+    }
   }
 }

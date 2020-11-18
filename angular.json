@@ -120,8 +120,13 @@
               "devServerTarget": "Project310:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "Project310"
 }
