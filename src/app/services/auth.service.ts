@@ -9,6 +9,10 @@ import { Observable, of } from 'rxjs';
 import { User } from './user.model';
 import { switchMap } from 'rxjs/operators';
 import { AngularFireModule } from '@angular/fire';
+import firebase from "firebase/app"
+//import { auth } from '../../../node_modules/firebase';
+// You don't need to import firebase/app either since it's being imported above
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +24,7 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router,
+    private router: Router
   ) { 
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -36,9 +40,11 @@ export class AuthService {
   }
 
   async googleSignin() {
-    //const provider = new firebase.auth.GoogleAuthProvider();
-    //const credential = await this.afAuth.signInWithPopup(provider);
-    //return this.updateUserData(credential.user);
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    console.log(credential);
+    return this.updateUserData(credential.user);
   }
 
   private updateUserData(user) {
