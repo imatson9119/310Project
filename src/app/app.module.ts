@@ -9,8 +9,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MenuComponent } from './menu/menu.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { LoginComponent } from './login/login.component';
+
 import { LoggedInRouteGuard } from './shared/route-guard';
+import { LoginComponent } from './login/login.component';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
