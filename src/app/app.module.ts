@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -11,6 +10,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MenuComponent } from './menu/menu.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
+import { LoggedInRouteGuard } from './shared/route-guard';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -26,7 +26,6 @@ const config = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     MenuComponent,
     SidenavComponent,
     LoginComponent
@@ -38,7 +37,7 @@ const config = {
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],
-  providers: [],
+  providers: [LoggedInRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
