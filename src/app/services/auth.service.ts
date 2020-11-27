@@ -20,6 +20,7 @@ import firebase from "firebase/app"
 export class AuthService {
 
   user$: Observable<User>;
+  user: any = null;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -56,8 +57,9 @@ export class AuthService {
       email: user.email, 
       displayName: user.displayName, 
       photoURL: user.photoURL
-    } 
-
+    }
+    this.user = data
+    this.router.navigateByUrl("/recent-expenses");
     return userRef.set(data, { merge: true })
 
   }

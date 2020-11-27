@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { CanActivate,
          ActivatedRouteSnapshot,
          RouterStateSnapshot, 
@@ -8,10 +9,11 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class LoggedInRouteGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private afAuth: AngularFireAuth) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-      if(this.auth.user$){
+      
+      if(this.auth.user){
           return true;
       }
       this.router.navigateByUrl('/login');

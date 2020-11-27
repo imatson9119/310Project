@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
+import { RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
+import { LoggedInRouteGuard } from './shared/route-guard';
 
 // const routes: Routes = [
 //   { path: "", redirectTo: "/home", pathMatch: "full" },
@@ -15,8 +18,10 @@ import { MenuComponent } from './menu/menu.component';
 //   { path: '**', redirectTo: '/home'}
 // ];
 const routes: Routes = [
-   { path: "", redirectTo: "/home", pathMatch: "full" },
+   { path: "", redirectTo: "recent-expenses", pathMatch: "full" },
    { path: "menu", component: MenuComponent },
+   { path: "login", component: LoginComponent },
+   { path: "recent-expenses", component: RecentExpensesComponent, canActivate: [LoggedInRouteGuard] },
 ];
 
 @NgModule({
