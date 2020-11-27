@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "Project310"
+  "defaultProject": "Project310",
+  "cli": {
+    "analytics": false
+  }
 }
