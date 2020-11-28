@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BudgetingComponent } from './budgeting/budgeting.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
+import { ReportingComponent } from './reporting/reporting.component';
 import { LoggedInRouteGuard } from './shared/route-guard';
 
 // const routes: Routes = [
@@ -21,6 +23,8 @@ const routes: Routes = [
    { path: "", redirectTo: "recent-expenses", pathMatch: "full" },
    { path: "menu", component: MenuComponent },
    { path: "login", component: LoginComponent },
+   { path: "reporting", component: ReportingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
+   { path: "budgeting", component: BudgetingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
    { path: "recent-expenses", component: RecentExpensesComponent/*, canActivate: [LoggedInRouteGuard]*/ },
 ];
 

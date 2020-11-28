@@ -13,6 +13,8 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { LoggedInRouteGuard } from './shared/route-guard';
 import { LoginComponent } from './login/login.component';
 import { RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
+import { ReportingComponent } from './reporting/reporting.component';
+import { BudgetingComponent } from './budgeting/budgeting.component';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -31,7 +33,9 @@ const config = {
     MenuComponent,
     SidenavComponent,
     LoginComponent,
-    RecentExpensesComponent
+    RecentExpensesComponent,
+    ReportingComponent,
+    BudgetingComponent
   ],
   imports: [
     BrowserModule,
