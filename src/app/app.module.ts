@@ -15,6 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
 import { ReportingComponent } from './reporting/reporting.component';
 import { BudgetingComponent } from './budgeting/budgeting.component';
+import { UserProfileComponent } from './shared/user-profile/user-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -35,7 +38,8 @@ const config = {
     LoginComponent,
     RecentExpensesComponent,
     ReportingComponent,
-    BudgetingComponent
+    BudgetingComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,8 @@ const config = {
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    BrowserAnimationsModule,
+    MatButtonModule
   ],
   providers: [LoggedInRouteGuard],
   bootstrap: [AppComponent]

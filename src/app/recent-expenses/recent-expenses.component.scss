@@ -6,6 +6,22 @@
     align-items: stretch;
     justify-content: stretch;
 }
+
 .content-window{
     flex: 1;
+    background: #ced4dc;
+}
+
+.inner-section{
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    
+    h1{
+        color: #4c4d50;
+        font-weight: 300;
+    }
 }

@@ -25,7 +25,7 @@ const routes: Routes = [
    { path: "login", component: LoginComponent },
    { path: "reporting", component: ReportingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
    { path: "budgeting", component: BudgetingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
-   { path: "recent-expenses", component: RecentExpensesComponent/*, canActivate: [LoggedInRouteGuard]*/ },
+   { path: "recent-expenses", component: RecentExpensesComponent/*, canActivate: [LoggedInRouteGuard] */},
 ];
 
 @NgModule({
