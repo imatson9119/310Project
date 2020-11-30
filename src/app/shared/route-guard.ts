@@ -13,7 +13,7 @@ export class LoggedInRouteGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
       
-      if(this.auth.user){
+      if(this.auth.user.email){
           return true;
       }
       this.router.navigateByUrl('/login');

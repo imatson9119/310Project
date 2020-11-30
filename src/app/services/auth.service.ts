@@ -20,7 +20,12 @@ import firebase from "firebase/app"
 export class AuthService {
 
   user$: Observable<User>;
-  user: any = null;
+  user: any = {
+    uid: "username",
+    email: null,
+    displayName: "User Name",
+    photoURL: "https://picsum.photos/200"
+  };
 
   constructor(
     private afAuth: AngularFireAuth,
