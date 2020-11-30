@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService, public snackbar: MatSnackBar) { }
+  constructor(public auth: AuthService, public snackbar: MatSnackBar, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -18,5 +19,18 @@ export class UserProfileComponent implements OnInit {
     this.snackbar.open("Successfully signed out.","Ok",{
       duration: 3000
     })
+  }
+  openDialog(){
+    this.dialog.open(GroupInfoDialog);
+  }
+}
+@Component({
+  selector: 'dialog-group-info-dialog',
+  templateUrl: 'dialog-group-info-dialog.html',
+  styleUrls: ['./dialog-group-info-dialog.scss']
+})
+export class GroupInfoDialog {
+  constructor(){
+
   }
 }

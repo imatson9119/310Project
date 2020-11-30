@@ -15,7 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { AddExpenseDialog, RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
 import { ReportingComponent } from './reporting/reporting.component';
 import { BudgetingComponent } from './budgeting/budgeting.component';
-import { UserProfileComponent } from './shared/user-profile/user-profile.component';
+import { GroupInfoDialog, UserProfileComponent } from './shared/user-profile/user-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -51,7 +51,8 @@ const config = {
     ReportingComponent,
     BudgetingComponent,
     UserProfileComponent,
-    AddExpenseDialog
+    AddExpenseDialog,
+    GroupInfoDialog
   ],
   imports: [
     BrowserModule,
