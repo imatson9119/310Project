@@ -1,0 +1,31 @@
+.main-container{
+    cursor: pointer;
+    height: 60px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+    background-color: rgba(255,255,255,.3);
+    overflow: hidden;
+    max-width: 400px;
+    width: fit-content;
+    transition: .3s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-left: 5px;
+    padding-right: 40px;
+    font-size: 18px;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+
+    img{
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 100%;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+    }
+}
+.main-container:hover{
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.35);
+}

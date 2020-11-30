@@ -21,6 +21,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { AuthService } from './services/auth.service';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -57,7 +58,7 @@ const config = {
     MatFormFieldModule
     
   ],
-  providers: [LoggedInRouteGuard],
+  providers: [LoggedInRouteGuard,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
