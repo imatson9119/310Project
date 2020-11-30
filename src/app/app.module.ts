@@ -22,14 +22,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
-<<<<<<< Updated upstream
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import {MatSelectModule} from '@angular/material/select';
-=======
 import {MatCardModule} from '@angular/material/card';
->>>>>>> Stashed changes
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -65,14 +62,11 @@ const config = {
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-<<<<<<< Updated upstream
     MatDialogModule,
     MatCheckboxModule,
     TextFieldModule,
-    MatSelectModule
-=======
+    MatSelectModule,
     MatCardModule
->>>>>>> Stashed changes
     
   ],
   providers: [LoggedInRouteGuard,AuthService],
