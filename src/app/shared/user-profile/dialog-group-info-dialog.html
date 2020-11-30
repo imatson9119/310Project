@@ -1,0 +1,26 @@
+<div *ngIf = 'auth.userGroup == null' class = 'no-group'>
+    <h1>Group Info</h1>
+    <br>
+    It look's like you're not in a group...
+    <br><br>
+    You can either
+    <br><br>
+    <div class = form-row>
+        <mat-form-field id = 'groupCode'>
+            <mat-label>Enter a group code:</mat-label>
+            <input [formControl] = 'groupCode' matInput placeholder="abc123">
+        </mat-form-field>
+        <button (click) = 'joinGroup()' mat-stroked-button color="primary" class = 'join' >Join</button>
+    </div>
+    
+    <br>
+    <div class = 'centered'><b>or</b></div>
+    <br>
+    <div class = form-row>
+        <mat-form-field id = 'groupName'>
+            <mat-label>Enter your group name:</mat-label>
+            <input [formControl] = 'groupName' matInput placeholder="House Party">
+        </mat-form-field>
+        <button (click) = 'createGroup()' mat-stroked-button color="primary" class = 'join' >Create</button>
+    </div>
+</div>

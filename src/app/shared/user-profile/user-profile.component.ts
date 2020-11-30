@@ -1,7 +1,8 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,7 +31,15 @@ export class UserProfileComponent implements OnInit {
   styleUrls: ['./dialog-group-info-dialog.scss']
 })
 export class GroupInfoDialog {
-  constructor(){
+  constructor(public auth: AuthService){
+
+  }
+  groupCode = new FormControl('');
+  groupName = new FormControl('');
+  joinGroup(){
+    
+  }
+  createGroup(){
 
   }
 }

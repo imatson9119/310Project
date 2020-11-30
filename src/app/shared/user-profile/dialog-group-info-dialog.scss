@@ -1,0 +1,23 @@
+h1{
+    font-weight: 300;
+}
+h3{
+    font-weight: 300;
+}
+mat-form-field{
+    min-width: 220px;
+    flex: 1;
+}
+.join{
+    margin-left: 10px;
+}
+.centered{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-row{
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+}

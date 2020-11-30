@@ -66,7 +66,6 @@ export class AuthService {
     this.userGroup = user.group
     userRef.get().subscribe(userDoc => {
       this.userGroup = userDoc.data().group;
-      console.log(this.userGroup);
     })
     this.router.navigateByUrl("/recent-expenses");
     return userRef.set(data, { merge: true })
