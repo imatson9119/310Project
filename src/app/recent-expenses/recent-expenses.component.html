@@ -2,7 +2,17 @@
     <app-sidenav></app-sidenav>
     <div class = 'content-window'>
         <div class = 'inner-section'>
-            <h1>Recent Expenses</h1>
+            <h1>Recent Expenses
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </h1> 
+            <mat-form-field>
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="chicken">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <app-user-profile></app-user-profile>
         </div>
     </div>
 </div>
