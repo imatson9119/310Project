@@ -1,4 +1,8 @@
-<div class = 'main-container'>
+<div [matMenuTriggerFor]="menu" class = 'main-container'>
     <img [src] = 'this.auth.user.photoURL'>
     {{this.auth.user.displayName}}
 </div>
+<mat-menu xPosition= 'before' #menu="matMenu">
+    <button mat-menu-item>Group Info</button>
+    <button mat-menu-item>Log Out</button>
+</mat-menu>

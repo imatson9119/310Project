@@ -27,6 +27,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -66,7 +67,8 @@ const config = {
     MatCheckboxModule,
     TextFieldModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule
     
   ],
   providers: [LoggedInRouteGuard,AuthService],
