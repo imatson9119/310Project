@@ -35,7 +35,9 @@ export class BudgetingComponent implements OnInit {
   }
 
 
-  
+  addCard(){}
+
+  clearCards(){}
 
 }
 
