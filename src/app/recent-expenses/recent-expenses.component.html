@@ -3,7 +3,7 @@
     <div class = 'content-window'>
         <div class = 'inner-section'>
             <h1>Recent Expenses
-                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <button (click) = 'openDialog()' mat-icon-button aria-label="Example icon button with a vertical three dot icon">
                     <mat-icon>add</mat-icon>
                 </button>
             </h1> 
@@ -11,8 +11,8 @@
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="chicken">
                 <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-            <app-user-profile></app-user-profile>
+            </mat-form-field>    
         </div>
+        <app-user-profile></app-user-profile>
     </div>
 </div>

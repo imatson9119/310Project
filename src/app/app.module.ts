@@ -12,7 +12,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 
 import { LoggedInRouteGuard } from './shared/route-guard';
 import { LoginComponent } from './login/login.component';
-import { RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
+import { AddExpenseDialog, RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
 import { ReportingComponent } from './reporting/reporting.component';
 import { BudgetingComponent } from './budgeting/budgeting.component';
 import { UserProfileComponent } from './shared/user-profile/user-profile.component';
@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
@@ -43,7 +44,8 @@ const config = {
     RecentExpensesComponent,
     ReportingComponent,
     BudgetingComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AddExpenseDialog
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ const config = {
     MatButtonModule,
     MatIconModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDialogModule
     
   ],
   providers: [LoggedInRouteGuard,AuthService],
