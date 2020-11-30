@@ -26,6 +26,7 @@ export class AuthService {
     displayName: "User Name",
     photoURL: "https://picsum.photos/200",
   };
+  userGroup: any = null;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -59,10 +60,14 @@ export class AuthService {
       uid: user.uid, 
       email: user.email, 
       displayName: user.displayName, 
-      photoURL: user.photoURL,
+      photoURL: user.photoURL
     }
     this.user = data;
-    console.log(this.user);
+    this.userGroup = user.group
+    userRef.get().subscribe(userDoc => {
+      this.userGroup = userDoc.data().group;
+      console.log(this.userGroup);
+    })
     this.router.navigateByUrl("/recent-expenses");
     return userRef.set(data, { merge: true })
 
