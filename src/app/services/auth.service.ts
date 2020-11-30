@@ -24,7 +24,7 @@ export class AuthService {
     uid: "username",
     email: null,
     displayName: "User Name",
-    photoURL: "https://picsum.photos/200"
+    photoURL: "https://picsum.photos/200",
   };
 
   constructor(
@@ -49,21 +49,20 @@ export class AuthService {
 
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    console.log(credential);
     return this.updateUserData(credential.user);
   }
 
   private updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
     const data = { 
       uid: user.uid, 
       email: user.email, 
       displayName: user.displayName, 
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
     }
-    this.user = data
+    this.user = data;
+    console.log(this.user);
     this.router.navigateByUrl("/recent-expenses");
     return userRef.set(data, { merge: true })
 
