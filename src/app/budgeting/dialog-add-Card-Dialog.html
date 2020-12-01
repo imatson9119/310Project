@@ -1,5 +1,5 @@
 <h1>Create Budget</h1>
-<form> 
+<form [formGroup]="newBudgetForm" (ngSubmit)="onSubmit()"> 
 <mat-form-field class = 'amount-field'>
         <div matPrefix><b>$ &nbsp;</b></div>
         <mat-label>Amount</mat-label>
@@ -63,5 +63,10 @@
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="5"></textarea>
     </mat-form-field>
+
+    <form [formGroup]="newBudgetForm" (ngSubmit)="onSubmit()">
+    <!--  <button mat-raised-button color="primary">Submit</button> -->
+    <button mat-raised-button mat-dialog-close color = "primary" type="submit" [disabled]="!newBudgetForm.valid">Submit</button>
+  
 
 </form>

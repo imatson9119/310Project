@@ -2,6 +2,7 @@ import { Component,  OnInit, NgZone,ViewChild } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -31,6 +32,24 @@ export class BudgetingComponent implements OnInit {
     styleUrls: ['./dialog-add-Card-Dialog.scss']
 })
 export class AddBudgetDialog {
+
+    newBudgetForm = new FormGroup({
+        amount: new FormControl(''),
+        category: new FormControl(''),
+        budgetSchedule: new FormControl(''),
+        budgetDescription: new FormControl('')
+    
+
+
+    });
+
+
+
+    amount= new FormControl('');
+    category= new FormControl('');
+    budgetSchedule= new FormControl('');
+    budgetDescription= new FormControl('');
+
     constructor(private _ngZone: NgZone){
 
     }
@@ -42,7 +61,10 @@ export class AddBudgetDialog {
             .subscribe(() => this.autosize.resizeToFitContent(true));
       }
 
+    onSubmit(){
+        console.warn(this.newBudgetForm.value);
 
+    }
 }
 
 
