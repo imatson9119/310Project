@@ -1,6 +1,19 @@
 <h1>Create Budget</h1>
 <form [formGroup]="newBudgetForm" (ngSubmit)="onSubmit()"> 
-<mat-form-field class = 'amount-field'>
+    
+
+    <mat-form-field class = 'full-width'>
+        <mat-label>Budget Name</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+    
+    
+    
+    <mat-form-field class = 'amount-field'>
         <div matPrefix><b>$ &nbsp;</b></div>
         <mat-label>Amount</mat-label>
         <input type='number' matInput placeholder="100">
