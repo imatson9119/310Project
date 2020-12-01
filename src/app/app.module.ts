@@ -79,12 +79,9 @@ const config = {
     MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
-<<<<<<< HEAD
     MatCardModule,
-    MatProgressSpinnerModule
-=======
-    MatSlideToggleModule
->>>>>>> 7401f1e620f19435e3a36217b1710ec1544fa73c
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
     
   ],
   providers: [LoggedInRouteGuard,AuthService],

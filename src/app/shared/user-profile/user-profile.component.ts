@@ -6,7 +6,6 @@ import { FormControl } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Group } from '../group.model';
 import firebase from "firebase/app";
-import { group } from 'console';
 import { User } from 'src/app/services/user.model';
 
 
