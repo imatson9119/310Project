@@ -75,7 +75,8 @@ const config = {
     MatMenuModule,
     MatSnackBarModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
     
   ],
   providers: [LoggedInRouteGuard,AuthService],

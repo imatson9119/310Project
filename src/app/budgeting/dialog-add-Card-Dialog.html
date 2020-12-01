@@ -1,0 +1,67 @@
+<h1>Create Budget</h1>
+<form> 
+<mat-form-field class = 'amount-field'>
+        <div matPrefix><b>$ &nbsp;</b></div>
+        <mat-label>Amount</mat-label>
+        <input type='number' matInput placeholder="100">
+    </mat-form-field>
+
+    
+
+    <br>
+
+
+    <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select>
+            <mat-option value="Auto & Transport">Auto & Transport</mat-option>
+            <mat-option value="Bills & Utilites">Bills & Utilites</mat-option>
+            <mat-option value="Business Services">Business Services</mat-option>
+            <mat-option value="Education">Education</mat-option>
+            <mat-option value="Entertainment">Entertainment</mat-option>
+            <mat-option value="Fees & Charges">Fees & Charges</mat-option>
+            <mat-option value="Financial">Financial</mat-option>
+            <mat-option value="Food & Dining">Food & Dining</mat-option>
+            <mat-option value="Gifts & Donations">Gifts & Donations</mat-option>
+            <mat-option value="Health & Fitness">Health & Fitness</mat-option>
+            <mat-option value="Home Improvement">Home Improvement</mat-option>
+            <mat-option value="Income">Income</mat-option>
+            <mat-option value="Investments">Investments</mat-option>
+            <mat-option value="Kids">Kids</mat-option>
+            <mat-option value="Loans">Loans</mat-option>
+            <mat-option value="Misc">Misc</mat-option>
+            <mat-option value="Personal Care">Personal Care</mat-option>
+            <mat-option value="Pets">Pets</mat-option>
+            <mat-option value="Rents">Rents</mat-option>
+            <mat-option value="Shopping">Shopping</mat-option>
+            <mat-option value="Taxes">Taxes</mat-option>
+            <mat-option value="Transfer">Transfer</mat-option>
+            <mat-option value="Travel">Travel</mat-option>
+
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <mat-label>Budget Schedule</mat-label>
+        <mat-select>
+          
+            <mat-option value="Weekly">Weekly</mat-option>
+            <mat-option value="Bi-Weekly">Bi-Weekly</mat-option>
+            <mat-option value="Monthly">Monthly</mat-option>
+            <mat-option value="Annually">Annually</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class = 'full-width'>
+        <mat-label>Budget Description</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+
+</form>
