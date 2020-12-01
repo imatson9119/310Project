@@ -7,3 +7,21 @@ h1{
 .full-width{
     width: 100%;
 }
+.checkboxes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.memberCheck{
+    margin: 12px;
+}
+.container{
+    max-width: 350px;
+}
+.submit{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}

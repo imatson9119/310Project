@@ -1,8 +1,9 @@
+<div class = container>
 <h1>Create Expense</h1>
 <form [formGroup]="newExpenseForm" (ngSubmit)="onSubmit()">
     <mat-form-field class = 'amount-field'>
         <div matPrefix><b>$ &nbsp;</b></div>
-        <mat-label>Amount </mat-label>
+        <mat-label>Amount</mat-label>
         <input type='number' matInput placeholder="100" formControlName="amount">
     </mat-form-field>
 
@@ -13,29 +14,8 @@
     <mat-form-field>
         <mat-label>Expense Type</mat-label>
         <mat-select formControlName="expenseType">
-            <mat-option value="Auto & Transport">Auto & Transport</mat-option>
-            <mat-option value="Bills & Utilites">Bills & Utilites</mat-option>
-            <mat-option value="Business Services">Business Services</mat-option>
-            <mat-option value="Education">Education</mat-option>
-            <mat-option value="Entertainment">Entertainment</mat-option>
-            <mat-option value="Fees & Charges">Fees & Charges</mat-option>
-            <mat-option value="Financial">Financial</mat-option>
-            <mat-option value="Food & Dining">Food & Dining</mat-option>
-            <mat-option value="Gifts & Donations">Gifts & Donations</mat-option>
-            <mat-option value="Health & Fitness">Health & Fitness</mat-option>
-            <mat-option value="Home Improvement">Home Improvement</mat-option>
-            <mat-option value="Income">Income</mat-option>
-            <mat-option value="Investments">Investments</mat-option>
-            <mat-option value="Kids">Kids</mat-option>
-            <mat-option value="Loans">Loans</mat-option>
-            <mat-option value="Misc">Misc</mat-option>
-            <mat-option value="Personal Care">Personal Care</mat-option>
-            <mat-option value="Pets">Pets</mat-option>
-            <mat-option value="Rents">Rents</mat-option>
-            <mat-option value="Shopping">Shopping</mat-option>
-            <mat-option value="Taxes">Taxes</mat-option>
-            <mat-option value="Transfer">Transfer</mat-option>
-            <mat-option value="Travel">Travel</mat-option>
+            <mat-option *ngFor="let type of this.afs.expenseTypes" [value] = 'type'>{{type}}</mat-option>
+            
         </mat-select>
     </mat-form-field>
 
@@ -50,12 +30,22 @@
                   cdkAutosizeMaxRows="5"
                   formControlName="expenseDesc"></textarea>
     </mat-form-field>
-
-
-    <mat-checkbox *ngFor="let groupMember of this.auth.groupMembers; let i = index">{{groupMember + i}} </mat-checkbox>
+    <br><br>
+    Select the group members involved in this expense:
+    <br>
+    <div class = checkboxes>
+        <mat-checkbox 
+            checked = 'true' 
+            class = 'memberCheck'
+            *ngFor="let groupMember of this.auth.groupMembers; let i = index">
+            {{groupMember.displayName.split(" ")[0]}}
+        </mat-checkbox>
+    </div>
+   <br>
  
     <!--  <button mat-raised-button color="primary">Submit</button> -->
-    <button mat-raised-button color = "primary" type="submit" [disabled]="!newExpenseForm.valid">Submit</button>
-  
-
+    <div class = submit>
+        <button mat-raised-button color = "primary" type="submit" [disabled]="!newExpenseForm.valid">Submit</button>
+    </div>
 </form>
+</div>
