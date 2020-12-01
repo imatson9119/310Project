@@ -1,18 +1,18 @@
 <h1>Create Expense</h1>
-<form>
+<form [formGroup]="newExpenseForm" (ngSubmit)="onSubmit()">
     <mat-form-field class = 'amount-field'>
         <div matPrefix><b>$ &nbsp;</b></div>
         <mat-label>Amount </mat-label>
-        <input type='number' matInput placeholder="100">
+        <input type='number' matInput placeholder="100" formControlName="amount">
     </mat-form-field>
 
-    <mat-checkbox class = 'creditCheck'>Credit</mat-checkbox>
+    <mat-slide-toggle class = 'creditCheck' formControlName="isGain" [ngModel]="false" >Credit</mat-slide-toggle>
 
     <br>
 
     <mat-form-field>
         <mat-label>Expense Type</mat-label>
-        <mat-select>
+        <mat-select formControlName="expenseType">
             <mat-option value="Auto & Transport">Auto & Transport</mat-option>
             <mat-option value="Bills & Utilites">Bills & Utilites</mat-option>
             <mat-option value="Business Services">Business Services</mat-option>
@@ -47,6 +47,17 @@
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"></textarea>
+                  cdkAutosizeMaxRows="5"
+                  formControlName="expenseDesc"></textarea>
     </mat-form-field>
+
+
+    
+ 
+
+    <form [formGroup]="newExpenseForm" (ngSubmit)="onSubmit()">
+    <!--  <button mat-raised-button color="primary">Submit</button> -->
+    <button mat-raised-button color = "primary" type="submit" [disabled]="!newExpenseForm.valid">Submit</button>
+  
+
 </form>

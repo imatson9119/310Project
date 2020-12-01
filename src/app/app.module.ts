@@ -31,6 +31,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
   authDomain: "project310-6e7fe.firebaseapp.com",
@@ -74,7 +76,8 @@ const config = {
     MatMenuModule,
     MatSnackBarModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggleModule
     
   ],
   providers: [LoggedInRouteGuard,AuthService],
