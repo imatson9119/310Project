@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
-import { User } from './user.model';
+import { User } from '../shared/models/user.model';
 import { switchMap } from 'rxjs/operators';
 import { AngularFireModule } from '@angular/fire';
 import firebase from "firebase/app"
-import { Group } from '../shared/group.model';
+import { Group } from '../shared/models/group.model';
+import { FirestoreService } from './firestore.service';
 //import { auth } from '../../../node_modules/firebase';
 // You don't need to import firebase/app either since it's being imported above
 
@@ -29,16 +30,18 @@ export class AuthService {
   };
   userGroupID: any = null;
   userGroup: Group = null;
+  groupMembers: User[] = null
   constructor(
     private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
-    private router: Router
+    private firestore: AngularFirestore,
+    private router: Router,
+    private afs: FirestoreService
   ) { 
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
           // Logged in
         if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          return this.firestore.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           // Logged out
           return of(null);
@@ -56,7 +59,7 @@ export class AuthService {
 
   private updateUserData(user) {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${user.uid}`);
     const data = { 
       uid: user.uid, 
       email: user.email, 
@@ -67,8 +70,18 @@ export class AuthService {
     this.userGroupID = user.group
     userRef.get().subscribe(userDoc => {
       this.userGroupID = userDoc.data().group;
-      this.afs.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
+      this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
         this.userGroup = docRef.data();
+        if(this.userGroup){
+          this.afs.getUsers(this.userGroup.users).then(users => {
+            this.groupMembers = users;
+            console.log("Loaded group members!")
+          })
+        }
+        else if(this.user.uid){
+          this.groupMembers = [this.user]
+        }
+        
       });
     })
     this.router.navigateByUrl("/recent-expenses");

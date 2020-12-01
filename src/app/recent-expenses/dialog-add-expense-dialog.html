@@ -52,10 +52,8 @@
     </mat-form-field>
 
 
-    
+    <mat-checkbox *ngFor="let groupMember of this.auth.groupMembers; let i = index">{{groupMember + i}} </mat-checkbox>
  
-
-    <form [formGroup]="newExpenseForm" (ngSubmit)="onSubmit()">
     <!--  <button mat-raised-button color="primary">Submit</button> -->
     <button mat-raised-button color = "primary" type="submit" [disabled]="!newExpenseForm.valid">Submit</button>
   

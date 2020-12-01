@@ -3,6 +3,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
+import { FirestoreService } from '../services/firestore.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-recent-expenses',
@@ -15,6 +17,7 @@ export class RecentExpensesComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    
   }
 
   openDialog() {
@@ -29,7 +32,7 @@ export class RecentExpensesComponent implements OnInit {
   templateUrl: 'dialog-add-expense-dialog.html',
   styleUrls: ['./dialog-add-expense-dialog.scss']
 })
-export class AddExpenseDialog {
+export class AddExpenseDialog implements OnInit{
 
   newExpenseForm = new FormGroup({
     amount: new FormControl(''),
@@ -38,13 +41,14 @@ export class AddExpenseDialog {
     expenseDesc: new FormControl('')
   });
 
-  amount=  new FormControl('');
-  isGain=  new FormControl('');
-  expenseType=  new FormControl('');
-  expenseDesc= new FormControl('');
-  constructor(private _ngZone: NgZone){
+  constructor(private _ngZone: NgZone, public afs: FirestoreService,public auth: AuthService){
     //this.isGain.setValue(false);
   }
+
+  ngOnInit(): void {
+    
+  }
+
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   triggerResize() {
@@ -57,5 +61,6 @@ export class AddExpenseDialog {
     //TODO 
     console.warn(this.newExpenseForm.value);
   }
+
 
 }

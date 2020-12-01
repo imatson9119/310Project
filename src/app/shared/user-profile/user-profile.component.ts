@@ -4,9 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Group } from '../group.model';
+import { Group } from '../models/group.model';
 import firebase from "firebase/app";
-import { User } from 'src/app/services/user.model';
+import { User } from 'src/app/shared/models/user.model';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class UserProfileComponent implements OnInit {
   styleUrls: ['./dialog-group-info-dialog.scss']
 })
 export class GroupInfoDialog implements OnInit{
-  constructor(public auth: AuthService, public firestore: AngularFirestore,public snackbar: MatSnackBar,public dialogRef: MatDialogRef<GroupInfoDialog>){
+  constructor(public auth: AuthService, public firestore: AngularFirestore,public snackbar: MatSnackBar,public dialogRef: MatDialogRef<GroupInfoDialog>,public afs: FirestoreService){
 
   }
   groupCode = new FormControl('');
@@ -107,7 +108,11 @@ export class GroupInfoDialog implements OnInit{
   updateAuthGroup(groupID: string){
     this.firestore.doc<Group>(`Groups/${groupID}`).get().subscribe(docRef => {
       this.auth.userGroup = docRef.data();
+      this.afs.getUsers(docRef.data().users).then(users => {
+        this.auth.groupMembers = users;
+      })
     })
+    
   }
   createGroup(){
     if(this.auth.user.uid == null){ //User is not logged in (cannot happen execept during development)
@@ -159,6 +164,7 @@ export class GroupInfoDialog implements OnInit{
       this.auth.userGroupID = null;
       this.auth.userGroup = null;
       this.userGroup = null;
+      this.auth.groupMembers = [this.auth.user];
       this.dialogRef.close();
     })
   }
