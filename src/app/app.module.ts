@@ -32,6 +32,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 const config = {
   apiKey: "AIzaSyAEUJ9BQIKXEK72X6RwYGE-X3tBlYWPDTc",
   authDomain: "project310-6e7fe.firebaseapp.com",
@@ -77,8 +79,12 @@ const config = {
     MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
+<<<<<<< HEAD
     MatCardModule,
     MatProgressSpinnerModule
+=======
+    MatSlideToggleModule
+>>>>>>> 7401f1e620f19435e3a36217b1710ec1544fa73c
     
   ],
   providers: [LoggedInRouteGuard,AuthService],
