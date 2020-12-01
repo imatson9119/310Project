@@ -10,6 +10,7 @@ import { User } from './user.model';
 import { switchMap } from 'rxjs/operators';
 import { AngularFireModule } from '@angular/fire';
 import firebase from "firebase/app"
+import { Group } from '../shared/group.model';
 //import { auth } from '../../../node_modules/firebase';
 // You don't need to import firebase/app either since it's being imported above
 
@@ -26,8 +27,8 @@ export class AuthService {
     displayName: "User Name",
     photoURL: "https://picsum.photos/200",
   };
-  userGroup: any = null;
-
+  userGroupID: any = null;
+  userGroup: Group = null;
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -63,9 +64,12 @@ export class AuthService {
       photoURL: user.photoURL
     }
     this.user = data;
-    this.userGroup = user.group
+    this.userGroupID = user.group
     userRef.get().subscribe(userDoc => {
-      this.userGroup = userDoc.data().group;
+      this.userGroupID = userDoc.data().group;
+      this.afs.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
+        this.userGroup = docRef.data();
+      });
     })
     this.router.navigateByUrl("/recent-expenses");
     return userRef.set(data, { merge: true })

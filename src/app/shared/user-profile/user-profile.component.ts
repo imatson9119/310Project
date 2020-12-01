@@ -46,8 +46,8 @@ export class GroupInfoDialog implements OnInit{
   userGroup: Group = null;
 
   ngOnInit(): void {
-    if(this.auth.userGroup){ //Get user group
-      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).get().subscribe(data => {
+    if(this.auth.userGroupID){ //Get user group
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).get().subscribe(data => {
         this.userGroup = data.data();
       })
     }
@@ -96,7 +96,7 @@ export class GroupInfoDialog implements OnInit{
         this.firestore.doc<Group>(`Groups/${groupID}`).update({
           users: firebase.firestore.FieldValue.arrayUnion(uid)
         }).then(_ => {
-          this.auth.userGroup = groupID;
+          this.auth.userGroupID = groupID;
           this.snackbar.open('You have been successfully added to the group "'+ groupName +'"',"Ok",{
             duration: 3000
           })
@@ -133,11 +133,11 @@ export class GroupInfoDialog implements OnInit{
 
   leaveGroup(){
     if(this.userGroup.users.length == 1){
-      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).delete().then(_ =>{
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).delete().then(_ =>{
         this.removeUserGroup(this.auth.user.uid);
       });
     } else{
-      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).update({
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).update({
         users: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
       }).then(_ => {
         this.removeUserGroup(this.auth.user.uid);
@@ -152,7 +152,7 @@ export class GroupInfoDialog implements OnInit{
       this.snackbar.open('You have been successfully removed from the group "'+ this.userGroup.name +'"',"Ok",{
         duration: 3000
       });
-      this.auth.userGroup = null;
+      this.auth.userGroupID = null;
       this.userGroup = null;
       this.dialogRef.close();
     })
