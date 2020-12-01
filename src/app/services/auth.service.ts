@@ -21,7 +21,7 @@ export class AuthService {
 
   user$: Observable<User>;
   user: any = {
-    uid: "username",
+    uid: null,
     email: null,
     displayName: "User Name",
     photoURL: "https://picsum.photos/200",

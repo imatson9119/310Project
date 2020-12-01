@@ -9,6 +9,7 @@
         <mat-form-field id = 'groupCode'>
             <mat-label>Enter a group code:</mat-label>
             <input [formControl] = 'groupCode' matInput placeholder="abc123">
+            <mat-error *ngIf="groupCode.invalid">{{codeError}}</mat-error>
         </mat-form-field>
         <button (click) = 'joinGroup()' mat-stroked-button color="primary" class = 'join' >Join</button>
     </div>
