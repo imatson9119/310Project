@@ -21,6 +21,7 @@
         <mat-form-field id = 'groupName'>
             <mat-label>Enter your group name:</mat-label>
             <input [formControl] = 'groupName' matInput placeholder="House Party">
+            <mat-error *ngIf="groupName.invalid">{{nameError}}</mat-error>
         </mat-form-field>
         <button (click) = 'createGroup()' mat-stroked-button color="primary" class = 'join' >Create</button>
     </div>
@@ -35,6 +36,8 @@
         <h2>{{this.userGroup.name}}</h2>
         
         <b>{{this.userGroup.users.length}}</b> members
+        <br><br>
+        Use the code <b>{{this.userGroup.code}}</b> to invite new members to your group.
         <br><br>
         <div class = leave>
             <button (click) = 'leaveGroup()' mat-stroked-button color="warn">Leave Group</button>

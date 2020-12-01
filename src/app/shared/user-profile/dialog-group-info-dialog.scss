@@ -23,7 +23,7 @@ mat-form-field{
 }
 .group{
     min-width: 220px;
-    max-width: 600px;
+    max-width: 300px;
 }
 h2{
     width: 100%;
@@ -33,6 +33,11 @@ h2{
     margin-top: 10px;
 }
 .leave{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.centered{
     display: flex;
     align-items: center;
     justify-content: center;

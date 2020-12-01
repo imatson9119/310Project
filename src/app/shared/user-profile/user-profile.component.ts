@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl } from '@angular/forms';
@@ -36,12 +36,13 @@ export class UserProfileComponent implements OnInit {
   styleUrls: ['./dialog-group-info-dialog.scss']
 })
 export class GroupInfoDialog implements OnInit{
-  constructor(public auth: AuthService, public firestore: AngularFirestore,public snackbar: MatSnackBar){
+  constructor(public auth: AuthService, public firestore: AngularFirestore,public snackbar: MatSnackBar,public dialogRef: MatDialogRef<GroupInfoDialog>){
 
   }
   groupCode = new FormControl('');
   groupName = new FormControl('');
   codeError = '';
+  nameError = '';
   userGroup: Group = null;
 
   ngOnInit(): void {
@@ -99,11 +100,35 @@ export class GroupInfoDialog implements OnInit{
           this.snackbar.open('You have been successfully added to the group "'+ groupName +'"',"Ok",{
             duration: 3000
           })
+          this.dialogRef.close();
+          
         })
       })
   }
   createGroup(){
-
+    if(this.auth.user.uid == null){ //User is not logged in (cannot happen execept during development)
+      this.groupName.setErrors({'incorrect': true})
+      this.nameError = 'Error: not logged in'
+      return
+    }
+    let name: string = this.groupName.value
+    if(name.length < 1 || name.length > 20){
+      this.groupName.setErrors({'incorrect': true})
+      this.nameError = 'Error: group name must be less than 20 characters'
+    } else if(!this.isAlphaNumeric(name)){
+      this.groupName.setErrors({'incorrect': true})
+      this.nameError = 'Error: group name must be alphanumeric'
+    } else{
+      let code = this.makeid(6);
+      let newGroup: Group = {
+        code: code,
+        name: name,
+        users: []
+      };
+      this.firestore.collection<Group>('Groups').add(newGroup).then(groupRef => {
+        this.addUserToGroup(this.auth.user.uid,groupRef.id,newGroup.name);
+      });
+    }
   }
 
   leaveGroup(){
@@ -123,11 +148,37 @@ export class GroupInfoDialog implements OnInit{
     this.firestore.doc<User>(`users/${uid}`).update({
       group: firebase.firestore.FieldValue.delete()
     }).then(_ => {
-      this.auth.userGroup = null;
-      this.userGroup = null;
+      
       this.snackbar.open('You have been successfully removed from the group "'+ this.userGroup.name +'"',"Ok",{
         duration: 3000
-      })
+      });
+      this.auth.userGroup = null;
+      this.userGroup = null;
+      this.dialogRef.close();
     })
+  }
+
+  isAlphaNumeric(str) {
+    var code, i, len;
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i);
+      if (!(code > 47 && code < 58) && // numeric (0-9)
+          !(code > 64 && code < 91) && // upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // lower alpha (a-z)
+        return false;
+      }
+    }
+    return true;
+  }
+
+  makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 }
