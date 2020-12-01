@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Group } from '../group.model';
 import firebase from "firebase/app";
 import { group } from 'console';
+import { User } from 'src/app/services/user.model';
 
 
 @Component({
@@ -35,13 +36,22 @@ export class UserProfileComponent implements OnInit {
   templateUrl: 'dialog-group-info-dialog.html',
   styleUrls: ['./dialog-group-info-dialog.scss']
 })
-export class GroupInfoDialog {
+export class GroupInfoDialog implements OnInit{
   constructor(public auth: AuthService, public firestore: AngularFirestore,public snackbar: MatSnackBar){
 
   }
   groupCode = new FormControl('');
   groupName = new FormControl('');
   codeError = '';
+  userGroup: Group = null;
+
+  ngOnInit(): void {
+    if(this.auth.userGroup){ //Get user group
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).get().subscribe(data => {
+        this.userGroup = data.data();
+      })
+    }
+  }
 
   joinGroup(){
     if(this.auth.user.uid == null){ //User is not logged in (cannot happen execept during development)
@@ -94,6 +104,31 @@ export class GroupInfoDialog {
       })
   }
   createGroup(){
-    
+
+  }
+
+  leaveGroup(){
+    if(this.userGroup.users.length == 1){
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).delete().then(_ =>{
+        this.removeUserGroup(this.auth.user.uid);
+      });
+    } else{
+      this.firestore.doc<Group>(`Groups/${this.auth.userGroup}`).update({
+        users: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
+      }).then(_ => {
+        this.removeUserGroup(this.auth.user.uid);
+      })
+    }
+  }
+  removeUserGroup(uid: string){
+    this.firestore.doc<User>(`users/${uid}`).update({
+      group: firebase.firestore.FieldValue.delete()
+    }).then(_ => {
+      this.auth.userGroup = null;
+      this.userGroup = null;
+      this.snackbar.open('You have been successfully removed from the group "'+ this.userGroup.name +'"',"Ok",{
+        duration: 3000
+      })
+    })
   }
 }

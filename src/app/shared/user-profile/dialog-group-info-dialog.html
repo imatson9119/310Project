@@ -25,3 +25,20 @@
         <button (click) = 'createGroup()' mat-stroked-button color="primary" class = 'join' >Create</button>
     </div>
 </div>
+
+
+<div *ngIf = 'auth.userGroup != null' class = 'group'>
+    <div *ngIf="!this.userGroup; else groupLoaded"><mat-spinner></mat-spinner></div>
+    <ng-template #groupLoaded>
+        <h1>Group Info</h1>
+        You are a member of the group
+        <h2>{{this.userGroup.name}}</h2>
+        
+        <b>{{this.userGroup.users.length}}</b> members
+        <br><br>
+        <div class = leave>
+            <button (click) = 'leaveGroup()' mat-stroked-button color="warn">Leave Group</button>
+        </div>
+    </ng-template>
+    
+</div>
