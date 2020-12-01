@@ -47,9 +47,7 @@ export class GroupInfoDialog implements OnInit{
 
   ngOnInit(): void {
     if(this.auth.userGroupID){ //Get user group
-      this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).get().subscribe(data => {
-        this.userGroup = data.data();
-      })
+      this.userGroup = this.auth.userGroup;
     }
   }
 
@@ -97,6 +95,7 @@ export class GroupInfoDialog implements OnInit{
           users: firebase.firestore.FieldValue.arrayUnion(uid)
         }).then(_ => {
           this.auth.userGroupID = groupID;
+          this.updateAuthGroup(groupID);
           this.snackbar.open('You have been successfully added to the group "'+ groupName +'"',"Ok",{
             duration: 3000
           })
@@ -104,6 +103,11 @@ export class GroupInfoDialog implements OnInit{
           
         })
       })
+  }
+  updateAuthGroup(groupID: string){
+    this.firestore.doc<Group>(`Groups/${groupID}`).get().subscribe(docRef => {
+      this.auth.userGroup = docRef.data();
+    })
   }
   createGroup(){
     if(this.auth.user.uid == null){ //User is not logged in (cannot happen execept during development)
@@ -153,6 +157,7 @@ export class GroupInfoDialog implements OnInit{
         duration: 3000
       });
       this.auth.userGroupID = null;
+      this.auth.userGroup = null;
       this.userGroup = null;
       this.dialogRef.close();
     })
