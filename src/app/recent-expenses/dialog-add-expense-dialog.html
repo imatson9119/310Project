@@ -7,7 +7,7 @@
         <input type='number' matInput placeholder="100" formControlName="amount">
     </mat-form-field>
 
-    <mat-slide-toggle class = 'creditCheck' formControlName="isGain" [ngModel]="false" >Credit</mat-slide-toggle>
+    <mat-slide-toggle class = 'creditCheck' formControlName="isGain">Credit</mat-slide-toggle>
 
     <br>
 
@@ -34,12 +34,16 @@
     Select the group members involved in this expense:
     <br>
     <div class = checkboxes>
-        <mat-checkbox 
-            checked = 'true' 
+        <ng-container formArrayName="checkboxes">
+<mat-checkbox 
+            
             class = 'memberCheck'
-            *ngFor="let groupMember of this.auth.groupMembers; let i = index">
+            *ngFor="let groupMember of this.auth.groupMembers; let i = index"
+            [formControlName] = 'i'>
             {{groupMember.displayName.split(" ")[0]}}
         </mat-checkbox>
+        </ng-container>
+        
     </div>
    <br>
  

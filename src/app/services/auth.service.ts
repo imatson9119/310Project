@@ -67,6 +67,7 @@ export class AuthService {
       photoURL: user.photoURL
     }
     this.user = data;
+    this.afs.curUID = data.uid;
     this.userGroupID = user.group
     userRef.get().subscribe(userDoc => {
       this.userGroupID = userDoc.data().group;
@@ -91,6 +92,7 @@ export class AuthService {
 
   async signOut() {
     await this.afAuth.signOut();
+    this.afs.curUID = null;
     this.router.navigate(['/login']);
   }
 }
