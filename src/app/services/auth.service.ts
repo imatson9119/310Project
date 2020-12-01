@@ -26,7 +26,7 @@ export class AuthService {
     displayName: "User Name",
     photoURL: "https://picsum.photos/200",
   };
-  userGroup: any = "Q1iNhtzrV1p2AUvJdtla";
+  userGroup: any = null;
 
   constructor(
     private afAuth: AngularFireAuth,
