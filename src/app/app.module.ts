@@ -31,6 +31,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -66,6 +68,7 @@ const config = {
     AngularFirestoreModule,
     AngularFireAuthModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
@@ -75,6 +78,7 @@ const config = {
     TextFieldModule,
     MatSelectModule,
     MatCardModule,
+    MatProgressBarModule,
     MatMenuModule,
     MatSnackBarModule,
     FormsModule,
