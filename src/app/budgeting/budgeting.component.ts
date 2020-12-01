@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,  OnInit, NgZone,ViewChild } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {take} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-budgeting',
@@ -7,38 +11,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BudgetingComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
-        document.getElementById("myBtn").addEventListener("click", myFunction);
-
-        function myFunction() {
-
-            var para = document.createElement("mat-card");
-            para.className = "card";
-            var para2 = document.createElement("p");
-            var node = document.createTextNode("This is new.");
-            
-            para2.appendChild(node);
-            para.appendChild(para2);
-
-            var element = document.getElementById("cardContainer");
-            element.appendChild(para2);
-        }
-
-
-
-
-
-
   }
 
-
-  addCard(){}
+  addCard(){
+    this.dialog.open(AddBudgetDialog);
+  }
 
   clearCards(){}
 
 }
 
+@Component({
+    selector: 'dialog-add-Card-Dialog',
+    templateUrl: 'dialog-add-Card-Dialog.html',
+    styleUrls: ['./dialog-add-Card-Dialog.scss']
+})
+export class AddBudgetDialog {
+    constructor(private _ngZone: NgZone){
 
+    }
+    @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
+    triggerResize() {
+        // Wait for changes to be applied, then trigger textarea resize.
+        this._ngZone.onStable.pipe(take(1))
+            .subscribe(() => this.autosize.resizeToFitContent(true));
+      }
+
+
+}

@@ -14,7 +14,7 @@ import { LoggedInRouteGuard } from './shared/route-guard';
 import { LoginComponent } from './login/login.component';
 import { AddExpenseDialog, RecentExpensesComponent } from './recent-expenses/recent-expenses.component';
 import { ReportingComponent } from './reporting/reporting.component';
-import { BudgetingComponent } from './budgeting/budgeting.component';
+import { AddBudgetDialog, BudgetingComponent } from './budgeting/budgeting.component';
 import { GroupInfoDialog, UserProfileComponent } from './shared/user-profile/user-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
@@ -53,7 +53,8 @@ const config = {
     BudgetingComponent,
     UserProfileComponent,
     AddExpenseDialog,
-    GroupInfoDialog
+    GroupInfoDialog,
+    AddBudgetDialog
   ],
   imports: [
     BrowserModule,
