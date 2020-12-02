@@ -57,6 +57,7 @@ export class FirestoreService{
     });
     await this.settleUp(this.curGroupID);
   }
+  
   async pay(owner: string, uids: string[], amount: number, desc: string){
     let individualAmount: number = amount / uids.length;
     individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
@@ -110,5 +111,33 @@ export class FirestoreService{
         await this.firestore.doc(`users/${uid}`).set(user);
       }
     })
+  }
+  async removeUserDebts(uid: string){
+    await this.firestore.doc(`users/${uid}`).update({
+      debts: firebase.firestore.FieldValue.delete()
+    });
+  }
+  async removeUserDebtsFromGroup(uid: string, gid: string){
+    await this.removeUserDebts(uid);
+    await this.firestore.doc<Group>(`Groups/${gid}`).get().subscribe(async docRef => {
+      let uids: string[] = docRef.data().users;
+      let usersArr: User[] = [];
+      await this.getUsers(uids).then(u => {
+        usersArr = u;
+      });
+      let users = {};
+      uids.forEach((user: string, i) => {
+          users[user] = usersArr[i];
+          if(!users[user].debts)
+            users[user].debts = {}
+      });
+      uids.forEach(user => {
+        delete users[user].debts[uid]
+      });
+      for(const [uid, user] of Object.entries(users)){
+        if(user['debt'] != {})
+        await this.firestore.doc(`users/${uid}`).set(user);
+      }
+    });
   }
 }

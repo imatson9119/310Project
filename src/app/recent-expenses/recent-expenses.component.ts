@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RecentExpensesComponent implements OnInit {
 
   
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public auth: AuthService) { }
 
   ngOnInit(): void {
     
