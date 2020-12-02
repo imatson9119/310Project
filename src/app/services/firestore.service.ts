@@ -68,7 +68,7 @@ export class FirestoreService{
     })
   }
 
-  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string, gid: string){
+  async createExpense(owner: User, uids: string[], amount: number, type: string, desc: string, gid: string){
     let date: Date = new Date();  
     let newExpense: Expense = {owner, uids, amount, type, desc, date ,gid};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
@@ -84,6 +84,7 @@ export class FirestoreService{
       }
     });
     await this.settleUp(this.curGroupID);
+    this.refreshExpenses();
   }
   
   async pay(owner: string, uids: string[], amount: number, desc: string){
