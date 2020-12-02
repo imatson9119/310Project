@@ -6,6 +6,7 @@ import { FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Expense } from '../shared/models/expense.model';
 
 @Component({
   selector: 'app-recent-expenses',
@@ -14,11 +15,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RecentExpensesComponent implements OnInit {
 
+  expenses: Expense[] = null;
   
-  constructor(public dialog: MatDialog, public auth: AuthService) { }
+  constructor(public dialog: MatDialog, public auth: AuthService, public afs: FirestoreService) { }
 
   ngOnInit(): void {
-    
+    this.afs.getExpenses().then(list => {
+      this.expenses = list;
+    })
   }
 
   openDialog() {

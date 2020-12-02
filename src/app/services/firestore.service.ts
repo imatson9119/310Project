@@ -33,6 +33,16 @@ export class FirestoreService{
     return (await userRef.get().toPromise()).data()
   }
 
+  async getExpenses(){
+    let expenses: Expense[] = []
+    await this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
+      data.docs.forEach(docRef => {
+        expenses.push(docRef.data());
+      })
+    })
+    return expenses;
+  }
+
   getExpenseTypes(){
     this.firestore.collection("ExpenseTypes").get().subscribe(data => {
       data.docs.forEach(doc => {
@@ -42,7 +52,8 @@ export class FirestoreService{
   }
 
   async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string){
-    let newExpense: Expense = {owner, uids, amount, type, desc};
+    let date: Date = new Date();  
+    let newExpense: Expense = {owner, uids, amount, type, desc, date};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
     let individualAmount: number = amount / uids.length;
     individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;

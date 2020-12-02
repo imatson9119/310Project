@@ -96,6 +96,7 @@ export class GroupInfoDialog implements OnInit{
           users: firebase.firestore.FieldValue.arrayUnion(uid)
         }).then(_ => {
           this.auth.userGroupID = groupID;
+          this.afs.curGroupID = groupID;
           this.updateAuthGroup(groupID);
           this.snackbar.open('You have been successfully added to the group "'+ groupName +'"',"Ok",{
             duration: 3000
