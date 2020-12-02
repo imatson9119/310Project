@@ -72,7 +72,6 @@ export class AddExpenseDialog implements OnInit{
   }
   onSubmit() {
     //TODO 
-    console.warn(this.newExpenseForm.value);
     const form = this.newExpenseForm.value 
     let chargedIDs: string[] = [];
     for(let i = 0; i < form.checkboxes.length; i++){
