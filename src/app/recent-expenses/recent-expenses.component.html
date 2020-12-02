@@ -15,7 +15,7 @@
             <div class = 'cards'>
                 <mat-card class="card" *ngFor="let expense of this.afs.expenses; let i = index">
                     <mat-card-header>
-                      <img mat-card-avatar [src] = this.afs.getImage(expense.owner) class="example-header-image"></div>
+                      <img mat-card-avatar [src] = 'this.afs.getImage(expense.owner)' class="example-header-image"></div>
                       <mat-card-title>Shiba Inu</mat-card-title>
                       <mat-card-subtitle>Dog Breed</mat-card-subtitle>
                     </mat-card-header>
