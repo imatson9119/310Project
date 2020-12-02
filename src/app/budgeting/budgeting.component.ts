@@ -3,12 +3,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
-<<<<<<< Updated upstream
-import { FirestoreService } from '../services/firestore.service';
-=======
 import { NgForOf } from '@angular/common';
+import { FirestoreService } from '../services/firestore.service';
 
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-budgeting',
@@ -28,12 +25,9 @@ export class BudgetingComponent implements OnInit {
   }
 
   clearCards(){
-<<<<<<< Updated upstream
     ;
     
-=======
       
->>>>>>> Stashed changes
   }
 
 
