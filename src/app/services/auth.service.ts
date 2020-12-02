@@ -68,7 +68,8 @@ export class AuthService {
     }
     this.user = data;
     this.afs.curUID = data.uid;
-    this.userGroupID = user.group
+    this.userGroupID = user.group;
+    this.afs.curGroupID = user.group;
     userRef.get().subscribe(userDoc => {
       this.userGroupID = userDoc.data().group;
       this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
