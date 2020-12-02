@@ -12,6 +12,7 @@ export class ReportingComponent implements OnInit {
   outgoingDebt: Object[] = [];
   incomingDebt: Object[] = [];
   debtTotal: number = 0;
+  userMap: Object
 
   constructor(public auth: AuthService, public afs: FirestoreService) { this.getDebts(); }
 
@@ -30,7 +31,7 @@ export class ReportingComponent implements OnInit {
         members.forEach((m,i) => {
           userMap[uids[i]] = m;
         })
-        
+        this.userMap = userMap;
         let userDebts = userMap[this.auth.user.uid].debts;
         if(userDebts){
           for (const [debtor, debt] of Object.entries(userDebts)) {
