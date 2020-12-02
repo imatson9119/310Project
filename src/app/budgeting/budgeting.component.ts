@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-budgeting',
@@ -22,7 +22,10 @@ export class BudgetingComponent implements OnInit {
     this.dialog.open(AddBudgetDialog);
   }
 
-  clearCards(){}
+  clearCards(){
+    ;
+    
+  }
 
 
   
@@ -37,23 +40,20 @@ export class BudgetingComponent implements OnInit {
 export class AddBudgetDialog {
 
     newBudgetForm = new FormGroup({
-        amount: new FormControl(''),
+        budgetName: new FormControl(''),
+        budgetAmount: new FormControl(''),
         category: new FormControl(''),
         budgetSchedule: new FormControl(''),
-        budgetDescription: new FormControl('')
+        budgetDesc: new FormControl('')
     
-
-
     });
-
-
-
-    amount= new FormControl('');
+    budgetName = new FormControl('');
+    budgetAmount= new FormControl('');
     category= new FormControl('');
     budgetSchedule= new FormControl('');
-    budgetDescription= new FormControl('');
+    budgetDesc= new FormControl('');
 
-    constructor(private _ngZone: NgZone){
+    constructor(private _ngZone: NgZone, public afs: FirestoreService){
 
     }
     @ViewChild('autosize') autosize: CdkTextareaAutosize;
