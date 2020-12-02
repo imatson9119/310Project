@@ -7,11 +7,11 @@
         <input type='number' matInput placeholder="100" formControlName="amount">
     </mat-form-field>
 
-    <mat-slide-toggle class = 'creditCheck' formControlName="isGain">Credit</mat-slide-toggle>
+    <mat-slide-toggle class = 'creditCheck' formControlName="isGain">Payment</mat-slide-toggle>
 
     <br>
 
-    <mat-form-field>
+    <mat-form-field *ngIf = '!this.newExpenseForm.value.isGain'>
         <mat-label>Expense Type</mat-label>
         <mat-select formControlName="expenseType">
             <mat-option *ngFor="let type of this.afs.expenseTypes" [value] = 'type'>{{type}}</mat-option>
@@ -19,7 +19,7 @@
         </mat-select>
     </mat-form-field>
 
-    <br>
+    <br *ngIf = '!this.newExpenseForm.value.isGain'>
 
     <mat-form-field class = 'full-width'>
         <mat-label>Expense Description</mat-label>
@@ -31,7 +31,7 @@
                   formControlName="expenseDesc"></textarea>
     </mat-form-field>
     <br><br>
-    Select the group members involved in this expense:
+    Select the group members involved in this transaction:
     <br>
     <div class = checkboxes>
         <ng-container formArrayName="checkboxes">
@@ -46,10 +46,11 @@
         
     </div>
    <br>
- 
+   
+
     <!--  <button mat-raised-button color="primary">Submit</button> -->
     <div class = submit>
         <button mat-raised-button color = "primary" type="submit" [disabled]="!newExpenseForm.valid">Submit</button>
     </div>
-</form>
+</form><button (click) = 'this.afs.settleUp("YdrLRZRgIxmOgnqx1ZBo")' mat-raised-button color = "primary">Settle</button>
 </div>

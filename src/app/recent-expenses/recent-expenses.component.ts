@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone, ViewChild, Input } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
-import { FormGroup, FormControl, FormArray} from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-recent-expenses',
@@ -36,17 +37,17 @@ export class AddExpenseDialog implements OnInit{
   
   newExpenseForm: FormGroup;
 
-  constructor(private _ngZone: NgZone, public afs: FirestoreService,public auth: AuthService){
+  constructor(private _ngZone: NgZone, public afs: FirestoreService,public auth: AuthService, public dialogRef: MatDialogRef<AddExpenseDialog>, public snackbar: MatSnackBar){
     //this.isGain.setValue(false);
   }
 
   ngOnInit(): void {
     
     this.newExpenseForm= new FormGroup({
-      amount: new FormControl(''),
+      amount: new FormControl('',[Validators.min(.01),Validators.required]),
       isGain: new FormControl(false),
       expenseType: new FormControl(''),
-      expenseDesc: new FormControl(''),
+      expenseDesc: new FormControl('',Validators.required),
       checkboxes: new FormArray([])
     });
     let checkboxes = this.newExpenseForm.get("checkboxes") as FormArray
@@ -74,12 +75,23 @@ export class AddExpenseDialog implements OnInit{
         chargedIDs.push(this.auth.groupMembers[i].uid);
       }
     }
-    let amount = -1 * parseFloat(form.amount)
-    if(form.isGain){
-      amount *= -1;
-    }
+    let amount = parseFloat(form.amount);
     amount = Math.round((amount + Number.EPSILON) * 100) / 100;
-    this.afs.createExpense(this.auth.user.uid, chargedIDs, amount, form.expenseType, form.expenseDesc);
+    if(!form.isGain){
+      this.afs.createExpense(this.auth.user.uid, chargedIDs, amount, form.expenseType, form.expenseDesc).then(_ =>{
+        this.snackbar.open("Expense submitted successfully.", "Ok", {
+          duration: 3000
+        })
+        this.dialogRef.close();
+      });
+    } else{
+      this.afs.pay(this.auth.user.uid,chargedIDs, amount,form.expenseDesc).then(_ =>{
+        this.snackbar.open("Payment successfully recorded.", "Ok", {
+          duration: 3000
+        });
+        this.dialogRef.close();
+      });
+    }
   }
 
 

@@ -64,7 +64,7 @@ export class AuthService {
       uid: user.uid, 
       email: user.email, 
       displayName: user.displayName, 
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
     }
     this.user = data;
     this.afs.curUID = data.uid;
@@ -89,7 +89,6 @@ export class AuthService {
     return userRef.set(data, { merge: true })
 
   }
-
   async signOut() {
     await this.afAuth.signOut();
     this.afs.curUID = null;
