@@ -22,7 +22,7 @@ import { FirestoreService } from './firestore.service';
 export class AuthService {
 
   user$: Observable<User>;
-  user: any = {
+  user: User = {
     uid: null,
     email: null,
     displayName: "User Name",
@@ -91,16 +91,16 @@ export class AuthService {
           if(this.userGroup){
             this.afs.getUsers(this.userGroup.users).then(users => {
               this.setGroupMembers(users);
-              this.router.navigate(['/recent-expenses']);
+              this.router.navigate(['/reporting']);
             })
           }
           else if(this.user.uid){
-            this.setGroupMembers(this.user);
-            this.router.navigate(['/recent-expenses']);
+            this.setGroupMembers([this.user]);
+            this.router.navigate(['/reporting']);
           }
         });
       } else{
-        this.router.navigate(['/recent-expenses']);
+        this.router.navigate(['/reporting']);
       }
       
     });

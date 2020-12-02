@@ -22,6 +22,10 @@ export class FirestoreService{
   expenses: Expense[] = []
   renderedExpenses: Expense[] = [];
 
+  async getUser(uid: string): Promise<User>{
+    const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
+    return (await userRef.get().toPromise()).data()
+  }
 
   async getUsers(uids: string[]): Promise<User[]>{
     let promises = []
@@ -31,7 +35,9 @@ export class FirestoreService{
     
     return Promise.all(promises);
   }
-
+  async getGroupMembers(gid: string): Promise<string[]>{
+    return (await this.firestore.doc<Group>(`Groups/${gid}`).get().toPromise()).data().users;
+  }
   refreshExpenses(){
     console.log(this.curGroupID);
     if(this.curGroupID){
@@ -77,10 +83,6 @@ export class FirestoreService{
       
     })
   }
-  async getUser(uid: string): Promise<User>{
-    const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
-    return (await userRef.get().toPromise()).data()
-  }
 
   async getExpenses(gid: string){
     let expenses: Expense[] = []
@@ -124,19 +126,9 @@ export class FirestoreService{
   }
   
   async pay(owner: string, uids: string[], amount: number, desc: string){
-    let individualAmount: number = amount / uids.length;
-    individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
-    uids.forEach(async (uid) => {
-      if (uid != this.curUID) {
-        var balUpdate = {};
-        
-        balUpdate[`debts.${this.curUID}`] = firebase.firestore.FieldValue.increment(individualAmount);
-        await this.firestore.doc(`users/${uid}`).update(balUpdate);
-      }
-    });
-    await this.settleUp(this.curGroupID);
+    this.updateBalances(owner,uids,amount);
   }
-
+  
   async settleUp(groupID: string){
     await this.firestore.doc<Group>(`Groups/${groupID}`).get().subscribe(async docRef => {
       let uids: string[] = docRef.data().users;
