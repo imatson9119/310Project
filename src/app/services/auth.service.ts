@@ -68,17 +68,16 @@ export class AuthService {
     }
     this.user = data;
     this.afs.curUID = data.uid;
-    this.userGroupID = user.group;
-    this.afs.curGroupID = user.group;
+    
     userRef.get().subscribe(userDoc => {
       this.userGroupID = userDoc.data().group;
+      this.afs.curGroupID = this.userGroupID;
+      this.afs.refreshExpenses();
       this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
         this.userGroup = docRef.data();
         if(this.userGroup){
           this.afs.getUsers(this.userGroup.users).then(users => {
             this.groupMembers = users;
-            console.log("Loaded group members!")
-            this.afs.refreshExpenses();
           })
         }
         else if(this.user.uid){

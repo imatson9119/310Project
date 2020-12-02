@@ -18,8 +18,7 @@ export class FirestoreService{
   expenses: Expense[] = []
 
   constructor(public firestore: AngularFirestore) { 
-    this.getExpenseTypes(); 
-    this.refreshExpenses();
+    this.getExpenseTypes();
   }
 
 
@@ -33,6 +32,7 @@ export class FirestoreService{
   }
 
   refreshExpenses(){
+    console.log(this.curGroupID);
     if(this.curGroupID){
       this.getExpenses(this.curGroupID).then(list => {
         this.expenses = list;
