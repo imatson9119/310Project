@@ -85,20 +85,24 @@ export class AuthService {
       this.afs.curGroupID = this.userGroupID;
       this.afs.refreshExpenses();
       this.afs.refreshBudget()
-      this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
-        this.userGroup = docRef.data();
-        if(this.userGroup){
-          this.afs.getUsers(this.userGroup.users).then(users => {
-            this.setGroupMembers(users);
+      if(this.userGroupID){
+        this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
+          this.userGroup = docRef.data();
+          if(this.userGroup){
+            this.afs.getUsers(this.userGroup.users).then(users => {
+              this.setGroupMembers(users);
+              this.router.navigate(['/recent-expenses']);
+            })
+          }
+          else if(this.user.uid){
+            this.setGroupMembers(this.user);
             this.router.navigate(['/recent-expenses']);
-          })
-        }
-        else if(this.user.uid){
-          this.setGroupMembers(this.user);
-          this.router.navigate(['/recent-expenses']);
-        }
-        
-      });
+          }
+        });
+      } else{
+        this.router.navigate(['/recent-expenses']);
+      }
+      
     });
     return userRef.set(data, { merge: true })
 
