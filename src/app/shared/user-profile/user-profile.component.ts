@@ -149,10 +149,13 @@ export class GroupInfoDialog implements OnInit{
       this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).update({
         users: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
       }).then(_ => {
-        this.removeUserGroup(this.auth.user.uid);
+        this.afs.removeUserDebtsFromGroup(this.auth.user.uid,this.auth.userGroupID).then(_ => {
+          this.removeUserGroup(this.auth.user.uid);
+        })
       })
     }
   }
+  
   removeUserGroup(uid: string){
     this.firestore.doc<User>(`users/${uid}`).update({
       group: firebase.firestore.FieldValue.delete()

@@ -3,7 +3,7 @@
     <div class = 'content-window'>
         <div class = 'inner-section'>
             <h1>Recent Expenses
-                <button (click) = 'openDialog()' mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <button (click) = 'openDialog()' [disabled] = '!this.auth.userGroup' mat-icon-button>
                     <mat-icon>add</mat-icon>
                 </button>
             </h1> 
