@@ -96,6 +96,7 @@ export class GroupInfoDialog implements OnInit{
           users: firebase.firestore.FieldValue.arrayUnion(uid)
         }).then(_ => {
           this.auth.userGroupID = groupID;
+          this.afs.curGroupID = groupID;
           this.updateAuthGroup(groupID);
           this.snackbar.open('You have been successfully added to the group "'+ groupName +'"',"Ok",{
             duration: 3000
@@ -110,6 +111,7 @@ export class GroupInfoDialog implements OnInit{
       this.auth.userGroup = docRef.data();
       this.afs.getUsers(docRef.data().users).then(users => {
         this.auth.groupMembers = users;
+        this.afs.refreshExpenses();
       })
     })
     
@@ -149,10 +151,13 @@ export class GroupInfoDialog implements OnInit{
       this.firestore.doc<Group>(`Groups/${this.auth.userGroupID}`).update({
         users: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
       }).then(_ => {
-        this.removeUserGroup(this.auth.user.uid);
+        this.afs.removeUserDebtsFromGroup(this.auth.user.uid,this.auth.userGroupID).then(_ => {
+          this.removeUserGroup(this.auth.user.uid);
+        })
       })
     }
   }
+  
   removeUserGroup(uid: string){
     this.firestore.doc<User>(`users/${uid}`).update({
       group: firebase.firestore.FieldValue.delete()
@@ -168,6 +173,7 @@ export class GroupInfoDialog implements OnInit{
       this.afs.curUID = null;
       this.afs.curGroupID = null;
       this.dialogRef.close();
+      this.afs.expenses = [];
     })
   }
 

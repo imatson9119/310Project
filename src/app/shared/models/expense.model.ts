@@ -4,4 +4,6 @@ export interface Expense{
     amount: number;
     type: string;
     desc: string;
+    date: Date;
+    gid: string;
 }

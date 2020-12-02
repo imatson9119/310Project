@@ -35,13 +35,13 @@
     <br>
     <div class = checkboxes>
         <ng-container formArrayName="checkboxes">
-<mat-checkbox 
-            
-            class = 'memberCheck'
-            *ngFor="let groupMember of this.auth.groupMembers; let i = index"
-            [formControlName] = 'i'>
-            {{groupMember.displayName.split(" ")[0]}}
-        </mat-checkbox>
+            <mat-checkbox 
+                
+                class = 'memberCheck'
+                *ngFor="let groupMember of this.auth.groupMembers; let i = index"
+                [formControlName] = 'i'>
+                {{groupMember.displayName.split(" ")[0]}}
+            </mat-checkbox>
         </ng-container>
         
     </div>

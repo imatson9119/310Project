@@ -19,6 +19,7 @@ export class FirestoreService{
   budgets: Budget[] = []
 
   constructor(public firestore: AngularFirestore) { this.getExpenseTypes() , this.refreshBudget()}
+  expenses: Expense[] = []
 
 
   async getUsers(uids: string[]): Promise<User[]>{
@@ -30,9 +31,32 @@ export class FirestoreService{
     return Promise.all(promises);
   }
 
+  refreshExpenses(){
+    if(this.curGroupID){
+      this.getExpenses(this.curGroupID).then(list => {
+        this.expenses = list;
+      })
+    }
+    
+  }
+
   async getUser(uid: string): Promise<User>{
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
     return (await userRef.get().toPromise()).data()
+  }
+
+  async getExpenses(gid: string){
+    let expenses: Expense[] = []
+    await this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
+      data.query.where("gid","==",this.curGroupID).orderBy("date").get().then(res => {
+        res.docs.forEach(docRef => {
+          expenses.push(docRef.data());
+          console.log(docRef.data());
+        })
+      })
+      
+    })
+    return expenses;
   }
 
   getExpenseTypes(){
@@ -43,8 +67,9 @@ export class FirestoreService{
     })
   }
 
-  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string){
-    let newExpense: Expense = {owner, uids, amount, type, desc};
+  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string, gid: string){
+    let date: Date = new Date();  
+    let newExpense: Expense = {owner, uids, amount, type, desc, date ,gid};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
     let individualAmount: number = amount / uids.length;
     individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
@@ -59,6 +84,7 @@ export class FirestoreService{
     });
     await this.settleUp(this.curGroupID);
   }
+  
   async pay(owner: string, uids: string[], amount: number, desc: string){
     let individualAmount: number = amount / uids.length;
     individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
@@ -143,4 +169,32 @@ export class FirestoreService{
   }
 
 
+  async removeUserDebts(uid: string){
+    await this.firestore.doc(`users/${uid}`).update({
+      debts: firebase.firestore.FieldValue.delete()
+    });
+  }
+  async removeUserDebtsFromGroup(uid: string, gid: string){
+    await this.removeUserDebts(uid);
+    await this.firestore.doc<Group>(`Groups/${gid}`).get().subscribe(async docRef => {
+      let uids: string[] = docRef.data().users;
+      let usersArr: User[] = [];
+      await this.getUsers(uids).then(u => {
+        usersArr = u;
+      });
+      let users = {};
+      uids.forEach((user: string, i) => {
+          users[user] = usersArr[i];
+          if(!users[user].debts)
+            users[user].debts = {}
+      });
+      uids.forEach(user => {
+        delete users[user].debts[uid]
+      });
+      for(const [uid, user] of Object.entries(users)){
+        if(user['debt'] != {})
+        await this.firestore.doc(`users/${uid}`).set(user);
+      }
+    });
+  }
 }

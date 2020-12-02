@@ -6,6 +6,7 @@ import { FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
 import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Expense } from '../shared/models/expense.model';
 
 @Component({
   selector: 'app-recent-expenses',
@@ -13,9 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./recent-expenses.component.scss']
 })
 export class RecentExpensesComponent implements OnInit {
-
   
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public auth: AuthService, public afs: FirestoreService) { }
 
   ngOnInit(): void {
     
@@ -78,7 +78,7 @@ export class AddExpenseDialog implements OnInit{
     let amount = parseFloat(form.amount);
     amount = Math.round((amount + Number.EPSILON) * 100) / 100;
     if(!form.isGain){
-      this.afs.createExpense(this.auth.user.uid, chargedIDs, amount, form.expenseType, form.expenseDesc).then(_ =>{
+      this.afs.createExpense(this.auth.user.uid, chargedIDs, amount, form.expenseType, form.expenseDesc, this.auth.userGroupID).then(_ =>{
         this.snackbar.open("Expense submitted successfully.", "Ok", {
           duration: 3000
         })

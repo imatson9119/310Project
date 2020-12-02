@@ -3,7 +3,7 @@
     <div class = 'content-window'>
         <div class = 'inner-section'>
             <h1>Recent Expenses
-                <button (click) = 'openDialog()' mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <button (click) = 'openDialog()' [disabled] = '!this.auth.userGroup' mat-icon-button>
                     <mat-icon>add</mat-icon>
                 </button>
             </h1> 
@@ -11,7 +11,27 @@
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="chicken">
                 <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>    
+            </mat-form-field>
+            <div class = 'cards'>
+                <mat-card class="card" *ngFor="let expense of this.afs.expenses; let i = index">
+                    <mat-card-header>
+                      <div mat-card-avatar class="example-header-image"></div>
+                      <mat-card-title>Shiba Inu</mat-card-title>
+                      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p>
+                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                        bred for hunting.
+                      </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                      <button mat-button>LIKE</button>
+                      <button mat-button>SHARE</button>
+                    </mat-card-actions>
+                  </mat-card>
+            </div>
         </div>
         <app-user-profile></app-user-profile>
     </div>
