@@ -6,6 +6,7 @@ import { User } from '../shared/models/user.model';
 import { AuthService } from './auth.service';
 import firebase from "firebase/app";
 import { Group } from '../shared/models/group.model';
+import {Budget} from '../shared/models/budget.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class FirestoreService{
   curUID = null;
   curGroupID = null
   expenseTypes: string[] = []
+  budgets: Budget[] = []
 
-  constructor(public firestore: AngularFirestore) { this.getExpenseTypes()}
+  constructor(public firestore: AngularFirestore) { this.getExpenseTypes() , this.refreshBudget()}
 
 
   async getUsers(uids: string[]): Promise<User[]>{
@@ -111,4 +113,34 @@ export class FirestoreService{
       }
     })
   }
+
+  async createBudget(owner: string, name: string,  amount: number, category: string, schedule: string, desc: string) {
+    let newBudget: Budget = { owner, name, amount, category, schedule, desc };
+    await this.firestore.collection<Budget>("Budgets").add(newBudget);
+  }
+
+  async getBudgets()
+  {
+    let budgets: Budget[] = [];
+    await this.firestore.collection<Budget>("Budgets").get().subscribe(data => {
+      data.query.where("owner", "==", this.curUID).get().then(res => {
+        res.docs.forEach(docRef => {
+          budgets.push(docRef.data());
+          console.log(docRef.data());
+        })
+      })
+    })
+    return budgets;
+  }
+
+  async refreshBudget()
+  {
+    this.getBudgets().then(list => {
+      this.budgets = list;
+      console.log(this.budgets);
+    })
+    
+  }
+
+
 }

@@ -1,10 +1,13 @@
 import { Component,  OnInit, NgZone,ViewChild } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service';
+import { AuthService } from '../services/auth.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 
 @Component({
@@ -14,7 +17,7 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class BudgetingComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public afs: FirestoreService) { }
 
   ngOnInit(): void {
 
@@ -46,17 +49,17 @@ export class AddBudgetDialog {
         budgetName: new FormControl(''),
         budgetAmount: new FormControl(''),
         category: new FormControl(''),
-        budgetSchedule: new FormControl(''),
+        schedule: new FormControl(''),
         budgetDesc: new FormControl('')
     
     });
     budgetName = new FormControl('');
     budgetAmount= new FormControl('');
     category= new FormControl('');
-    budgetSchedule= new FormControl('');
+    schedule= new FormControl('');
     budgetDesc= new FormControl('');
 
-    constructor(private _ngZone: NgZone, public afs: FirestoreService){
+  constructor(private _ngZone: NgZone, public afs: FirestoreService, public snackbar: MatSnackBar, public auth: AuthService, public dialogRef: MatDialogRef<AddBudgetDialog> ){
 
     }
     @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -69,8 +72,24 @@ export class AddBudgetDialog {
 
     onSubmit(){
         console.warn(this.newBudgetForm.value);
+      
+       
+      const form = this.newBudgetForm.value
+        let newBudgets: string[] = [];
+        let amount = parseFloat(form.budgetAmount);
+        amount = Math.round((amount + Number.EPSILON) * 100) / 100;
+        this.afs.createBudget(this.auth.user.uid, form.budgetName, amount , form.category, form.schedule, form.budgetDesc).then(_ => {
+            this.snackbar.open("Budget submitted successfully.", "Ok", {
+              duration: 3000
+            })
+            this.afs.refreshBudget();
+            this.dialogRef.close();
+          });
+     
 
     }
+
+      
 }
 
 
