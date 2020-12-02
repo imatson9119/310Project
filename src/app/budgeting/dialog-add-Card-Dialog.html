@@ -25,7 +25,7 @@
     <br>
 
     
-    <mat-form-field *ngIf='!this.newExpenseForm.value.category'>
+    <mat-form-field *ngIf='!this.newBudgetForm.value.category'>
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
             <mat-option *ngFor="let type of this.afs.category" [value]='type'>{{type}}</mat-option>

@@ -8,18 +8,14 @@
             <p id="demo"></p>
 
 
-            <h1>Budgeting
-                <button id="myBtn" mat-icon-button aria-label="Example icon button with a vertical three dot icon" >
-                    <mat-icon>add</mat-icon>
-                </button>
-            </h1> 
+            <h1>Budgeting</h1> 
             <button id="addCardButton" mat-raised-button (click)="addCard()">Add Card</button>
             <button id="clearCardsButton" mat-raised-button (click)="clearCards()">Clear All Cards</button>
 
              <app-user-profile></app-user-profile>
 
-            <div class="content" fxLayout="column wrap">
-                <div fxFlex="25%" *ngFor="let num of [1,2,3,4,5,6,7]">
+            <div class="content" fxLayout="column wrap" fxLayoutGap-Grid>
+                <div i="arrayNGFR" fxFlex="25%" *ngFor="let num of [1,2,3,4,5,6,7,8]">
                     <mat-card class="mat-elevation-z4">
                     <mat-card-header>
                         <mat-card-title>Budget Name {{num}}</mat-card-title>
