@@ -41,7 +41,6 @@ export class FirestoreService{
         this.refreshRenderedExpenses();
       })
     }
-    
   }
   refreshRenderedExpenses(query: string = '', userMap: Object = {}){
     let renderedExpenses: Expense[] = []
@@ -61,6 +60,23 @@ export class FirestoreService{
     }
     this.renderedExpenses = renderedExpenses;
   }
+  deleteExpense(expense: Expense){
+    this.updateBalances(expense.owner,expense.uids,-expense.amount);
+    this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
+      data.query.where("date","==",expense.date).where("owner","==",expense.owner).get().then(res => {
+        res.docs.forEach(docRef => {
+          this.firestore.doc(`Expenses/${docRef.id}`).delete().then(_ => {
+            this.expenses.forEach((e,i) => {
+              if(e.owner == expense.owner && e.date == expense.date){
+                this.expenses.splice(i,1);
+              }
+            });
+          });
+        })
+      })
+      
+    })
+  }
   async getUser(uid: string): Promise<User>{
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
     return (await userRef.get().toPromise()).data()
@@ -72,7 +88,6 @@ export class FirestoreService{
       data.query.where("gid","==",this.curGroupID).orderBy("date","desc").get().then(res => {
         res.docs.forEach(docRef => {
           expenses.push(docRef.data());
-          console.log(docRef.data());
         })
       })
       
@@ -87,23 +102,23 @@ export class FirestoreService{
       })
     })
   }
-
+  async updateBalances(owner: string, uids: string[], amount: number){
+    let individualAmount: number = amount / uids.length;
+    individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
+    await uids.forEach(async (uid) => {
+      if (uid != owner) {
+        var balUpdate = {};
+       // console.log(individualAmount + " to " + uid);
+        balUpdate[`debts.${owner}`] = firebase.firestore.FieldValue.increment(individualAmount);
+        await this.firestore.doc(`users/${uid}`).update(balUpdate).then(_ => this.settleUp(this.curGroupID));
+      }
+    });
+  }
   async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string, gid: string){
     let date: Date = new Date();  
     let newExpense: Expense = {owner, uids, amount, type, desc, date ,gid};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
-    let individualAmount: number = amount / uids.length;
-    individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;
-    console.log(individualAmount);
-    uids.forEach(async (uid) => {
-      if (uid != this.curUID) {
-        var balUpdate = {};
-        
-        balUpdate[`debts.${this.curUID}`] = firebase.firestore.FieldValue.increment(individualAmount);
-        await this.firestore.doc(`users/${uid}`).update(balUpdate);
-      }
-    });
-    await this.settleUp(this.curGroupID);
+    await this.updateBalances(owner,uids,amount);
     this.expenses.unshift(newExpense);
     this.refreshRenderedExpenses();
   }
@@ -139,6 +154,7 @@ export class FirestoreService{
         let debts = users[uid].debts;
         for (const [debtor, debt] of Object.entries(debts)) {
           if(debt < 0){
+            //console.log("Negative debt of " + debt + " to " + debtor + " found for user " + uid + ". Switching.")
             if(!users[debtor].debts[uid])
               users[debtor].debts[uid] = 0;
             users[debtor].debts[uid] -= users[uid].debts[debtor];
@@ -147,6 +163,7 @@ export class FirestoreService{
         }
         for (const [debtor, debt] of Object.entries(debts)) {
           if(users[debtor].debts[uid] && users[debtor].debts[uid] != 0){
+            //console.log("Subtracting " + debtor + "'s debt of" + users[debtor].debts[uid] + " from " + uid);
             users[uid].debts[debtor] -= users[debtor].debts[uid];
             users[debtor].debts[uid] = 0;
             if(users[uid].debts[debtor] < 0){

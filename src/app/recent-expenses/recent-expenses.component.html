@@ -29,8 +29,9 @@
                       </p>
                     </mat-card-content>
                     <mat-card-actions>
-                      <button mat-button>LIKE</button>
-                      <button mat-button>SHARE</button>
+                      <button mat-stroked-button>Like</button>
+                      <button mat-stroked-button >Share</button>
+                      <button (click) = 'this.afs.deleteExpense(expense)' *ngIf = 'expense.owner == this.auth.user.uid' mat-stroked-button color="warn">Delete</button>
                     </mat-card-actions>
                 </mat-card>
             </overlay-scrollbars>
