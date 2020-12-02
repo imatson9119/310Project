@@ -165,6 +165,8 @@ export class GroupInfoDialog implements OnInit{
       this.auth.userGroup = null;
       this.userGroup = null;
       this.auth.groupMembers = [this.auth.user];
+      this.afs.curUID = null;
+      this.afs.curGroupID = null;
       this.dialogRef.close();
     })
   }

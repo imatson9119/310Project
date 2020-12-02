@@ -13,6 +13,7 @@ import { Group } from '../shared/models/group.model';
 export class FirestoreService{
 
   curUID = null;
+  curGroupID = null
   expenseTypes: string[] = []
 
   constructor(public firestore: AngularFirestore) { this.getExpenseTypes()}
@@ -54,6 +55,7 @@ export class FirestoreService{
         await this.firestore.doc(`users/${uid}`).update(balUpdate);
       }
     });
+    await this.settleUp(this.curGroupID);
   }
   async pay(owner: string, uids: string[], amount: number, desc: string){
     let individualAmount: number = amount / uids.length;
@@ -62,10 +64,11 @@ export class FirestoreService{
       if (uid != this.curUID) {
         var balUpdate = {};
         
-        balUpdate[`debts.${this.curUID}`] = firebase.firestore.FieldValue.increment(-individualAmount);
+        balUpdate[`debts.${this.curUID}`] = firebase.firestore.FieldValue.increment(individualAmount);
         await this.firestore.doc(`users/${uid}`).update(balUpdate);
       }
     });
+    await this.settleUp(this.curGroupID);
   }
 
   async settleUp(groupID: string){
@@ -83,11 +86,15 @@ export class FirestoreService{
       });
       uids.forEach(uid => {
         let debts = users[uid].debts;
-        
         for (const [debtor, debt] of Object.entries(debts)) {
-
-          if(debt != 0 && users[debtor].debts[uid])
-
+          if(debt < 0){
+            if(!users[debtor].debts[uid])
+              users[debtor].debts[uid] = 0;
+            users[debtor].debts[uid] -= users[uid].debts[debtor];
+            users[uid].debts[debtor] = 0;
+          }
+        }
+        for (const [debtor, debt] of Object.entries(debts)) {
           if(users[debtor].debts[uid] && users[debtor].debts[uid] != 0){
             users[uid].debts[debtor] -= users[debtor].debts[uid];
             users[debtor].debts[uid] = 0;
@@ -97,8 +104,11 @@ export class FirestoreService{
             }
           }
         }
-        console.log(users);
-      })
+      });
+      for(const [uid, user] of Object.entries(users)){
+        if(user['debt'] != {})
+        await this.firestore.doc(`users/${uid}`).set(user);
+      }
     })
   }
 }
