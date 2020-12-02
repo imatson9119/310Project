@@ -7,6 +7,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Expense } from '../shared/models/expense.model';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
   selector: 'app-recent-expenses',
@@ -15,6 +16,7 @@ import { Expense } from '../shared/models/expense.model';
 })
 export class RecentExpensesComponent implements OnInit {
   
+  query: string = "";
   constructor(public dialog: MatDialog, public auth: AuthService, public afs: FirestoreService) { }
 
   ngOnInit(): void {
@@ -23,6 +25,9 @@ export class RecentExpensesComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(AddExpenseDialog);
+  }
+  refreshRenderedExpenses(){
+    this.afs.refreshRenderedExpenses(this.query, this.auth.userMap);
   }
   
 }
@@ -78,7 +83,7 @@ export class AddExpenseDialog implements OnInit{
     let amount = parseFloat(form.amount);
     amount = Math.round((amount + Number.EPSILON) * 100) / 100;
     if(!form.isGain){
-      this.afs.createExpense(this.auth.user, chargedIDs, amount, form.expenseType, form.expenseDesc, this.auth.userGroupID).then(_ =>{
+      this.afs.createExpense(this.auth.user.uid, chargedIDs, amount, form.expenseType, form.expenseDesc, this.auth.userGroupID).then(_ =>{
         this.snackbar.open("Expense submitted successfully.", "Ok", {
           duration: 3000
         })

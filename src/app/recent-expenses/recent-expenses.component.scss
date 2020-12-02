@@ -10,15 +10,24 @@
 .content-window{
     flex: 1;
     background: #ced4dc;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .inner-section{
+    flex: 1;
     max-width: 800px;
     margin-right: auto;
     margin-left: auto;
     padding-top: 50px;
     padding-left: 50px;
     padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     
     h1{
         color: #4c4d50;
@@ -30,5 +39,35 @@
     mat-form-field{
         width: 350px;
     }
-    
+    .card{
+        margin-bottom: 50px;
+    }
+    .cards{
+        overflow-y: auto;
+        width: 100%;
+        flex: 1;
+
+        .mat-card-avatar{
+            border: 2px solid rgba(0,0,0,.3);
+        }
+        mat-card-header{
+            display: flex;
+            flex-direction: row;
+        }
+    }
+    .user-images{
+        flex: 1;
+        justify-content: flex-end;
+        display: flex;
+
+        img{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+            margin-left:10px;
+            border: 2px solid rgba(0,0,0,.3);
+        }
+    }
 }

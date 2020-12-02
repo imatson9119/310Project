@@ -9,15 +9,19 @@
             </h1> 
             <mat-form-field>
                 <mat-label>Search</mat-label>
-                <input matInput placeholder="chicken">
+                <input id= "search" matInput placeholder="chicken" [(ngModel)] = 'this.query' (keyup) = 'this.refreshRenderedExpenses()'>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <div class = 'cards'>
-                <mat-card class="card" *ngFor="let expense of this.afs.expenses; let i = index">
+            <overlay-scrollbars
+            [options]="{ scrollbars: { autoHide: 'scroll' } }" class = 'cards'>
+                <mat-card class="card" *ngFor="let expense of this.afs.renderedExpenses; let i = index">
                     <mat-card-header>
-                      <img mat-card-avatar [src] = 'expense.owner.photoURL' class="example-header-image">
-                      <mat-card-title>{{expense.owner.displayName}}</mat-card-title>
+                      <img mat-card-avatar [src] = 'this.auth.getGroupMember(expense.owner).photoURL' class="example-header-image">
+                      <mat-card-title>{{this.auth.getGroupMember(expense.owner).displayName}}</mat-card-title>
                       <mat-card-subtitle>${{expense.amount}}</mat-card-subtitle>
+                      <div class = 'user-images'>
+                        <img *ngFor="let uid of expense.uids;" [src] = 'this.auth.getGroupMember(uid).photoURL'>
+                      </div>
                     </mat-card-header>
                     <mat-card-content>
                       <p>
@@ -28,8 +32,8 @@
                       <button mat-button>LIKE</button>
                       <button mat-button>SHARE</button>
                     </mat-card-actions>
-                  </mat-card>
-            </div>
+                </mat-card>
+            </overlay-scrollbars>
         </div>
         <app-user-profile></app-user-profile>
     </div>

@@ -30,7 +30,8 @@ export class AuthService {
   };
   userGroupID: any = null;
   userGroup: Group = null;
-  groupMembers: User[] = null
+  groupMembers: User[] = null;
+  userMap: {};
   constructor(
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
@@ -49,7 +50,17 @@ export class AuthService {
       })
     )
   }
-
+  getGroupMember(uid: string){
+    return this.userMap[uid];
+  }
+  setGroupMembers(users: User[]){
+    let userMap = {}
+    this.groupMembers = users;
+    users.forEach((user: User) => {
+      userMap[user.uid] = user;
+    });
+    this.userMap = userMap
+  }
   async googleSignin() {
 
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -73,20 +84,22 @@ export class AuthService {
       this.userGroupID = userDoc.data().group;
       this.afs.curGroupID = this.userGroupID;
       this.afs.refreshExpenses();
+      this.afs.refreshBudget()
       this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
         this.userGroup = docRef.data();
         if(this.userGroup){
           this.afs.getUsers(this.userGroup.users).then(users => {
-            this.groupMembers = users;
+            this.setGroupMembers(users);
+            this.router.navigate(['/recent-expenses']);
           })
         }
         else if(this.user.uid){
-          this.groupMembers = [this.user]
+          this.setGroupMembers(this.user);
+          this.router.navigate(['/recent-expenses']);
         }
         
       });
-    })
-    this.router.navigateByUrl("/recent-expenses");
+    });
     return userRef.set(data, { merge: true })
 
   }

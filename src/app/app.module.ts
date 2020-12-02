@@ -33,7 +33,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const config = {
@@ -86,7 +86,7 @@ const config = {
     MatCardModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
-    
+    OverlayscrollbarsModule
   ],
   providers: [LoggedInRouteGuard,AuthService],
   bootstrap: [AppComponent]

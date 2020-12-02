@@ -18,8 +18,9 @@ export class FirestoreService{
   expenseTypes: string[] = []
   budgets: Budget[] = []
 
-  constructor(public firestore: AngularFirestore) { this.getExpenseTypes() , this.refreshBudget()}
+  constructor(public firestore: AngularFirestore) { this.getExpenseTypes()}
   expenses: Expense[] = []
+  renderedExpenses: Expense[] = [];
 
 
   async getUsers(uids: string[]): Promise<User[]>{
@@ -36,11 +37,30 @@ export class FirestoreService{
     if(this.curGroupID){
       this.getExpenses(this.curGroupID).then(list => {
         this.expenses = list;
+        this.renderedExpenses = list;
+        this.refreshRenderedExpenses();
       })
     }
     
   }
-
+  refreshRenderedExpenses(query: string = '', userMap: Object = {}){
+    let renderedExpenses: Expense[] = []
+    if(query == ''){
+      renderedExpenses = this.expenses;
+    } else{
+      this.expenses.forEach(expense => {
+        let text = expense.desc;
+        text += " " + userMap[expense.owner].displayName + " ";
+        expense.uids.forEach(uid => {
+          text += " " + userMap[uid].displayName + " ";
+        });
+        if(text.toLowerCase().includes(query.toLowerCase())){
+          renderedExpenses.push(expense);
+        }
+      });
+    }
+    this.renderedExpenses = renderedExpenses;
+  }
   async getUser(uid: string): Promise<User>{
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
     return (await userRef.get().toPromise()).data()
@@ -49,7 +69,7 @@ export class FirestoreService{
   async getExpenses(gid: string){
     let expenses: Expense[] = []
     await this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
-      data.query.where("gid","==",this.curGroupID).orderBy("date").get().then(res => {
+      data.query.where("gid","==",this.curGroupID).orderBy("date","desc").get().then(res => {
         res.docs.forEach(docRef => {
           expenses.push(docRef.data());
           console.log(docRef.data());
@@ -68,7 +88,7 @@ export class FirestoreService{
     })
   }
 
-  async createExpense(owner: User, uids: string[], amount: number, type: string, desc: string, gid: string){
+  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string, gid: string){
     let date: Date = new Date();  
     let newExpense: Expense = {owner, uids, amount, type, desc, date ,gid};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
@@ -84,7 +104,8 @@ export class FirestoreService{
       }
     });
     await this.settleUp(this.curGroupID);
-    this.refreshExpenses();
+    this.expenses.unshift(newExpense);
+    this.refreshRenderedExpenses();
   }
   
   async pay(owner: string, uids: string[], amount: number, desc: string){
@@ -165,7 +186,6 @@ export class FirestoreService{
   {
     this.getBudgets().then(list => {
       this.budgets = list;
-      console.log(this.budgets);
     })
     
   }
