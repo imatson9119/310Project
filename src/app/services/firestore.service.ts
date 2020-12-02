@@ -15,8 +15,12 @@ export class FirestoreService{
   curUID = null;
   curGroupID = null
   expenseTypes: string[] = []
+  expenses: Expense[] = []
 
-  constructor(public firestore: AngularFirestore) { this.getExpenseTypes()}
+  constructor(public firestore: AngularFirestore) { 
+    this.getExpenseTypes(); 
+    this.refreshExpenses();
+  }
 
 
   async getUsers(uids: string[]): Promise<User[]>{
@@ -28,17 +32,30 @@ export class FirestoreService{
     return Promise.all(promises);
   }
 
+  refreshExpenses(){
+    if(this.curGroupID){
+      this.getExpenses(this.curGroupID).then(list => {
+        this.expenses = list;
+      })
+    }
+    
+  }
+
   async getUser(uid: string): Promise<User>{
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
     return (await userRef.get().toPromise()).data()
   }
 
-  async getExpenses(){
+  async getExpenses(gid: string){
     let expenses: Expense[] = []
     await this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
-      data.docs.forEach(docRef => {
-        expenses.push(docRef.data());
+      data.query.where("gid","==",this.curGroupID).orderBy("date").get().then(res => {
+        res.docs.forEach(docRef => {
+          expenses.push(docRef.data());
+          console.log(docRef.data());
+        })
       })
+      
     })
     return expenses;
   }
@@ -51,9 +68,9 @@ export class FirestoreService{
     })
   }
 
-  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string){
+  async createExpense(owner: string, uids: string[], amount: number, type: string, desc: string, gid: string){
     let date: Date = new Date();  
-    let newExpense: Expense = {owner, uids, amount, type, desc, date};
+    let newExpense: Expense = {owner, uids, amount, type, desc, date,gid};
     await this.firestore.collection<Expense>("Expenses").add(newExpense);
     let individualAmount: number = amount / uids.length;
     individualAmount = Math.round((individualAmount + Number.EPSILON) * 100) / 100;

@@ -78,6 +78,7 @@ export class AuthService {
           this.afs.getUsers(this.userGroup.users).then(users => {
             this.groupMembers = users;
             console.log("Loaded group members!")
+            this.afs.refreshExpenses();
           })
         }
         else if(this.user.uid){

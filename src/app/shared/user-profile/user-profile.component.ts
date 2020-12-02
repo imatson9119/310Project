@@ -111,6 +111,7 @@ export class GroupInfoDialog implements OnInit{
       this.auth.userGroup = docRef.data();
       this.afs.getUsers(docRef.data().users).then(users => {
         this.auth.groupMembers = users;
+        this.afs.refreshExpenses();
       })
     })
     
@@ -172,6 +173,7 @@ export class GroupInfoDialog implements OnInit{
       this.afs.curUID = null;
       this.afs.curGroupID = null;
       this.dialogRef.close();
+      this.afs.expenses = [];
     })
   }
 
