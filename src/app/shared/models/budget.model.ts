@@ -1,5 +1,5 @@
 export interface Budget{
-    owner: string; 
+    gid: string; 
     name: string;
     amount: number; 
     category: string; 

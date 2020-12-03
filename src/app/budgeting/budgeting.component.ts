@@ -17,7 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class BudgetingComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, public afs: FirestoreService) { }
+  constructor(public dialog: MatDialog, public afs: FirestoreService,public auth: AuthService) { }
 
   ngOnInit(): void {
 
@@ -25,17 +25,7 @@ export class BudgetingComponent implements OnInit {
 
   addCard(){
     this.dialog.open(AddBudgetDialog);
-  }
-
-  clearCards(){
-    
-    
-      
-  }
-
-
-  
-
+  }  
 }
 
 @Component({
@@ -78,11 +68,10 @@ export class AddBudgetDialog {
         let newBudgets: string[] = [];
         let amount = parseFloat(form.budgetAmount);
         amount = Math.round((amount + Number.EPSILON) * 100) / 100;
-        this.afs.createBudget(this.auth.user.uid, form.budgetName, amount , form.category, form.schedule, form.budgetDesc).then(_ => {
+        this.afs.createBudget(this.auth.userGroupID, form.budgetName, amount , form.category, form.schedule, form.budgetDesc).then(_ => {
             this.snackbar.open("Budget submitted successfully.", "Ok", {
               duration: 3000
             })
-            this.afs.refreshBudget();
             this.dialogRef.close();
           });
      

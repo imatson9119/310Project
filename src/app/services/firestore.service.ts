@@ -172,31 +172,31 @@ export class FirestoreService{
     })
   }
 
-  async createBudget(owner: string, name: string,  amount: number, category: string, schedule: string, desc: string) {
-    let newBudget: Budget = { owner, name, amount, category, schedule, desc };
-    await this.firestore.collection<Budget>("Budgets").add(newBudget);
+  async createBudget(gid: string, name: string,  amount: number, category: string, schedule: string, desc: string) {
+    let newBudget: Budget = { gid, name, amount, category, schedule, desc };
+    await this.firestore.collection<Budget>("Budgets").add(newBudget).then(_ => {
+      this.budgets.unshift(newBudget);
+    });
   }
 
   async getBudgets()
   {
     let budgets: Budget[] = [];
     await this.firestore.collection<Budget>("Budgets").get().subscribe(data => {
-      data.query.where("owner", "==", this.curUID).get().then(res => {
+      data.query.where("gid", "==", this.curGroupID).get().then(res => {
         res.docs.forEach(docRef => {
           budgets.push(docRef.data());
-          console.log(docRef.data());
         })
       })
     })
     return budgets;
   }
 
-  async refreshBudget()
+  async refreshBudgets()
   {
     this.getBudgets().then(list => {
       this.budgets = list;
     })
-    
   }
 
 

@@ -84,23 +84,23 @@ export class AuthService {
       this.userGroupID = userDoc.data().group;
       this.afs.curGroupID = this.userGroupID;
       this.afs.refreshExpenses();
-      this.afs.refreshBudget()
+      this.afs.refreshBudgets()
       if(this.userGroupID){
         this.firestore.doc<Group>(`Groups/${this.userGroupID}`).get().subscribe(docRef => {
           this.userGroup = docRef.data();
           if(this.userGroup){
             this.afs.getUsers(this.userGroup.users).then(users => {
               this.setGroupMembers(users);
-              this.router.navigate(['/reporting']);
+              this.router.navigate(['/budgeting']);
             })
           }
           else if(this.user.uid){
             this.setGroupMembers([this.user]);
-            this.router.navigate(['/reporting']);
+            this.router.navigate(['/budgeting']);
           }
         });
       } else{
-        this.router.navigate(['/reporting']);
+        this.router.navigate(['/budgeting']);
       }
       
     });

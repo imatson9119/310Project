@@ -2,21 +2,18 @@
     <app-sidenav></app-sidenav>
     <div class = 'content-window'>
         <div class = "inner-section">
-    
-          
-
-            <p id="demo"></p>
 
 
-            <h1>Budgeting</h1> 
-            <button id="addCardButton" mat-raised-button (click)="addCard()">Add Card</button>
-            <button id="clearCardsButton" mat-raised-button (click)="clearCards()">Clear All Cards</button>
+            <h1>Budgeting
+                <button (click) = 'addCard()' [disabled] = '!this.auth.userGroup' mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                </button>
+            </h1> 
 
              <app-user-profile></app-user-profile>
 
-            <div class="content" fxLayout="column wrap" fxLayoutGap-Grid>
-                <div i="arrayNGFR" 
-                fxFlex="25%" >
+             <overlay-scrollbars
+             [options]="{ scrollbars: { autoHide: 'scroll' } }" class = 'cards'>
                     <mat-card class="mat-elevation-z4"
                     *ngFor="let budgets of this.afs.budgets; let i = index"
                     [formControlName] = 'i'>
@@ -34,10 +31,7 @@
                         <!--<button mat-button>SHARE</button>-->
                     </mat-card-actions>
                     </mat-card>
-                </div>
-                <br>
-                <br>
-            </div>
+            </overlay-scrollbars>
 
            
         </div>

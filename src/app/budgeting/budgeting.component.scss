@@ -1,43 +1,47 @@
 .main-container{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: stretch;
-}
-.content-window{
-    flex: 1;
-    background-color: #ced4dc;
-    width: 85%;
-    overflow: scroll;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
+.content-window{
+  flex: 1;
+  background: #ced4dc;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+}
 
 .inner-section{
-    
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    height: 95%;
-    
+  flex: 1;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   
-    
+  h1{
+      color: #4c4d50;
+      font-weight: 300;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
 
-    //background-color: blue;
-    
-    h1{
-        color: #4c4d50;
-        font-weight: 300;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.cards{
+  overflow-y: auto;
+  width: 100%;
+  flex: 1;
 }
-
 .card, mat-card {
     /* Add shadows to create the "card" effect */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -56,26 +60,4 @@
   .container {
     padding: 2px 16px;
   }
-
-
-
-
-  .card-flex-container {
-    height: 80%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-
-  #addCardButton{
-      background-color: lightgreen;
-  }
-
-
-  #clearCardsButton{
-      background-color:#ff4d4d;
-  }
-
-
-  
+}
