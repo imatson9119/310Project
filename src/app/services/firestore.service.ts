@@ -17,6 +17,13 @@ export class FirestoreService{
   curGroupID = null
   expenseTypes: string[] = []
   budgets: Budget[] = []
+  budgetSpending: number[] = [];
+  timeIntervals: Object = {
+    "weekly": 7,
+    "biWeekly": 14,
+    "monthly": 31,
+    "annually": 365
+  }
 
   constructor(public firestore: AngularFirestore) { this.getExpenseTypes()}
   expenses: Expense[] = []
@@ -91,6 +98,7 @@ export class FirestoreService{
             this.budgets.forEach((b,i) => {
               if(b.gid == budget.gid && b.dateCreated == budget.dateCreated){
                 this.budgets.splice(i,1);
+                this.budgetSpending.splice(i,1);
               }
             });
           });
@@ -192,7 +200,9 @@ export class FirestoreService{
     let newBudget: Budget = { gid, name, amount, category, schedule, desc, dateCreated};
     await this.firestore.collection<Budget>("Budgets").add(newBudget).then(_ => {
       this.budgets.unshift(newBudget);
+      this.budgetSpending.unshift(this.getIndividualBudgetSpending(newBudget));
     });
+    return newBudget;
   }
 
   async getBudgets()
@@ -207,12 +217,37 @@ export class FirestoreService{
     })
     return budgets;
   }
+  
 
   async refreshBudgets()
   {
     this.getBudgets().then(list => {
       this.budgets = list;
     })
+  }
+  getBudgetSpending(){
+    this.budgets.forEach((b,i) => {
+      this.budgetSpending[i] = this.getIndividualBudgetSpending(b);
+    });
+  }
+  getIndividualBudgetSpending(b: Budget){
+    let totalSpent = 0;
+    for(let j = 0; j < this.expenses.length; j++){
+      let e = this.expenses[j];
+      if(!this.inRange(b.schedule,e.date)){
+        //console.log(e);
+        continue;
+      }
+      //console.log("Evaluating expense for equality to " + b.category);
+      if(e.type == b.category){
+        totalSpent+= e.amount;
+      }
+    }
+    return totalSpent;
+  }
+  inRange(interval: string,date: any){
+    const diffTime = Math.abs(date.seconds - ((new Date()).getTime()/1000));
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) <= this.timeIntervals[interval]; 
   }
 
 

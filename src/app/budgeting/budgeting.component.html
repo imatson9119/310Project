@@ -14,16 +14,34 @@
 
              <overlay-scrollbars
              [options]="{ scrollbars: { autoHide: 'scroll' } }" class = 'cards'>
-                <mat-card class="mat-elevation-z4" *ngFor="let budget of this.afs.budgets; let i = index">
+                <mat-card class="mat-elevation-z4 card" *ngFor="let budget of this.afs.budgets; let i = index">
                     <mat-card-header>
                         <mat-card-title>{{budget.name}}</mat-card-title>
+                        <div [ngClass] = "{red: budget.amount < afs.budgetSpending[i], green: budget.amount >= afs.budgetSpending[i]}" class='budget-status'>
+                            {{budget.amount >= afs.budgetSpending[i] ? "Under Budget" : "Over Budget"}}
+                        </div>
                     </mat-card-header>
                     <mat-card-subtitle>{{budget.category}}</mat-card-subtitle>
                     <mat-card-content>
                         {{budget.desc}}
                     </mat-card-content>
 
-                    <mat-progress-bar id="budget-Bar" mode="determinate" value="40"></mat-progress-bar>
+                    <div [ngClass] = "{redBack: budget.amount < afs.budgetSpending[i], greenBack: budget.amount >= afs.budgetSpending[i]}" class = 'bar-container'>
+                        <div 
+                            [style] = '"width : " + afs.budgetSpending[i] / budget.amount * 100 + "%;"' 
+                            [ngClass] = "{redFront: budget.amount < afs.budgetSpending[i], greenFront: budget.amount >= afs.budgetSpending[i]}" 
+                            class = 'bar-fill'>
+                        </div>
+                        <div [ngClass] = "{darkRed: budget.amount < afs.budgetSpending[i], green: budget.amount >= afs.budgetSpending[i]}" class = 'bar-left-text'>
+                            ${{afs.budgetSpending[i]}}
+                        </div>
+                        <div [ngClass] = "{darkRed: budget.amount < afs.budgetSpending[i], green: budget.amount >= afs.budgetSpending[i]}" class = 'bar-right-text'>
+                            ${{budget.amount}}
+                        </div>
+                        <div class = 'bar-left-text descriptor'>Amount Spent</div>
+                        <div class = 'bar-right-text descriptor'>Amount Budgeted</div>
+                    </div>
+
                     <mat-card-actions>
                         <button (click) = 'this.afs.deleteBudget(budget)' mat-stroked-button color="warn">Delete</button>
                     </mat-card-actions>

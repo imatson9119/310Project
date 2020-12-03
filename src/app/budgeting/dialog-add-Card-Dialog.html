@@ -40,23 +40,25 @@
         <mat-label>Budget Schedule</mat-label>
         <mat-select formControlName = "schedule">
           
-            <mat-option value="Weekly">Weekly</mat-option>
-            <mat-option value="Bi-Weekly">Bi-Weekly</mat-option>
-            <mat-option value="Monthly">Monthly</mat-option>
-            <mat-option value="Annually">Annually</mat-option>
+            <mat-option value="weekly">Weekly</mat-option>
+            <mat-option value="biWeekly">Bi-Weekly</mat-option>
+            <mat-option value="monthly">Monthly</mat-option>
+            <mat-option value="annually">Annually</mat-option>
         </mat-select>
     </mat-form-field>
 
     <br>
 
-    <mat-form-field class = 'full-width'>
+    <mat-form-field>
         <mat-label>Budget Description</mat-label>
         <textarea matInput
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="5"
-                  formControlName="budgetDesc"></textarea>
+                  formControlName="budgetDesc"
+                  class = 'full-width'></textarea>
+                  
     </mat-form-field>
     <br>
     <button mat-raised-button mat-dialog-close color = "primary" type="submit" [disabled]="!newBudgetForm.valid">Submit</button>

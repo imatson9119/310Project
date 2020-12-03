@@ -33,6 +33,7 @@ export class ReportingComponent implements OnInit {
           if(user.uid == uid){
             for (const debt of Object.values(user.debts)) {
               netDebt += Number(debt);
+              
             };
           }
           else{
@@ -40,12 +41,12 @@ export class ReportingComponent implements OnInit {
               
               if(debtor == uid){
                 netDebt -= Number(debt);
-              } else{
               }
             };
           }
         }
       }
+      netDebt = Math.round((netDebt + Number.EPSILON) * 100) / 100;
       netDebts[uid] = netDebt;
       this.groupMaxDebt = Math.max(Math.abs(netDebt), this.groupMaxDebt);
     });

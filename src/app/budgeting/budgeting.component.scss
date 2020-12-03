@@ -6,7 +6,12 @@
   align-items: stretch;
   justify-content: stretch;
 }
-
+.red{
+  color: rgb(183, 88, 88);
+}
+.green{
+  color: rgb(107, 148, 107);
+}
 .content-window{
   flex: 1;
   background: #ced4dc;
@@ -41,5 +46,88 @@
     overflow-y: auto;
     width: 100%;
     flex: 1;
+  }
+  .card{
+    margin-bottom: 50px;
+    padding: 0px;
+
+    mat-card-header{
+      padding: 16px;
+      padding-bottom: 0px;
+      position: relative;
+    }
+    mat-card-title{
+      transform: translate(-16px, 0px);
+    }
+    mat-card-subtitle{
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    mat-card-content{
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    mat-card-actions{
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 16px;
+    }
+    .budget-status{
+      position: absolute;
+      right: 16px;
+      font-weight: 400;
+      font-size: 17px;
+    }
+    
+
+    .bar-container{
+      width: 100%;
+      position: relative;
+      height: 30px;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .bar-fill{
+      height: 100%;
+      position: absolute;
+      left: 0;
+    }
+    .bar-left-text{
+      height: 100%;
+      position: absolute;
+      left: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .bar-right-text{
+      height: 100%;
+      position: absolute;
+      right: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .descriptor{
+      font-size: 12px;
+      font-weight: 300;
+      color: black;
+      transform: translate(0px,30px);
+    }
+    
+    .darkRed{
+      color: #6b3535;
+    }
+    .redBack{
+      background-color: rgb(207, 144, 144);
+    }
+    .redFront{
+      background-color: rgb(207, 144, 144);
+    }
+    .greenBack{
+      background-color: #cfe9c5;
+    }
+    .greenFront{
+      background-color: #b4daa5;
+    }
   }
 }

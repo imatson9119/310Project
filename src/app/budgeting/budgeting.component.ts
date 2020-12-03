@@ -7,6 +7,7 @@ import { NgForOf } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { Budget } from '../shared/models/budget.model';
 
 
 
@@ -20,14 +21,17 @@ export class BudgetingComponent implements OnInit {
   constructor(public dialog: MatDialog, public afs: FirestoreService,public auth: AuthService) { }
 
   ngOnInit(): void {
-
+    this.afs.budgets.forEach(b => {
+      this.afs.budgetSpending = [];
+      this.afs.budgetSpending.push(0);
+    });
+    this.afs.getBudgetSpending();
   }
 
   addCard(){
     this.dialog.open(AddBudgetDialog);
-  }  
+  } 
 }
-
 @Component({
     selector: 'dialog-add-Card-Dialog',
     templateUrl: 'dialog-add-Card-Dialog.html',
@@ -63,12 +67,11 @@ export class AddBudgetDialog {
     onSubmit(){
         console.warn(this.newBudgetForm.value);
       
-       
       const form = this.newBudgetForm.value
         let newBudgets: string[] = [];
         let amount = parseFloat(form.budgetAmount);
         amount = Math.round((amount + Number.EPSILON) * 100) / 100;
-        this.afs.createBudget(this.auth.userGroupID, form.budgetName, amount , form.category, form.schedule, form.budgetDesc).then(_ => {
+        this.afs.createBudget(this.auth.userGroupID, form.budgetName, amount , form.category, form.schedule, form.budgetDesc).then(b => {
             this.snackbar.open("Budget submitted successfully.", "Ok", {
               duration: 3000
             })
