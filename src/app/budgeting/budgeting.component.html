@@ -21,7 +21,7 @@
                             {{budget.amount >= afs.budgetSpending[i] ? "Under Budget" : "Over Budget"}}
                         </div>
                     </mat-card-header>
-                    <mat-card-subtitle>{{budget.category}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{budget.category}} - <i>{{this.conversion[budget.schedule]}}</i></mat-card-subtitle>
                     <mat-card-content>
                         {{budget.desc}}
                     </mat-card-content>

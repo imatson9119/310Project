@@ -18,6 +18,13 @@ import { Budget } from '../shared/models/budget.model';
 })
 export class BudgetingComponent implements OnInit {
 
+  conversion = {
+    "weekly": "Weekly",
+    "biWeekly": "Bi-Weekly",
+    "monthly": "Monthly",
+    "annually": "Anually"
+  }
+
   constructor(public dialog: MatDialog, public afs: FirestoreService,public auth: AuthService) { }
 
   ngOnInit(): void {
@@ -26,6 +33,7 @@ export class BudgetingComponent implements OnInit {
       this.afs.budgetSpending.push(0);
     });
     this.afs.getBudgetSpending();
+    console.log("init");
   }
 
   addCard(){

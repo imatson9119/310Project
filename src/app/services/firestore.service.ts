@@ -236,7 +236,7 @@ export class FirestoreService{
       let e = this.expenses[j];
       if(!this.inRange(b.schedule,e.date)){
         //console.log(e);
-        continue;
+        break;
       }
       //console.log("Evaluating expense for equality to " + b.category);
       if(e.type == b.category){

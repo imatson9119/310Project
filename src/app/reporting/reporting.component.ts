@@ -17,12 +17,14 @@ export class ReportingComponent implements OnInit {
   netDebts: Object = null;
   uids: string[];
 
+
   groupMaxDebt: number = 0;
 
   constructor(public auth: AuthService, public afs: FirestoreService) {  }
 
   ngOnInit(): void {
     this.getDebts();
+    this.afs.getBudgetSpending();
   }
   getNetDebts(){
     let netDebts = {};
