@@ -24,6 +24,13 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf = 'this.netDebts && this.userMap' class = 'debt-graphic'>
+                <div *ngFor =  'let user of this.uids; let i = index' class = 'bar-container' [style] = 'getContainerStyle(this.netDebts[user])'>
+                    <div class = 'bar-fill' [style] = 'getBarStyle(this.netDebts[user])' ></div>
+                    <span class = 'bar-text' [id] = '"text" + i' [style] = 'getTextStyle(this.netDebts[user],i)'>${{this.getPosDebt(user)}}</span>
+                    <img class = 'bar-icon' [src] = "this.userMap[user].photoURL">
+                </div>
+            </div>
             
         </div>
         <app-user-profile></app-user-profile>
