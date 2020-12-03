@@ -83,7 +83,22 @@ export class FirestoreService{
       
     })
   }
-
+  deleteBudget(budget: Budget){
+    this.firestore.collection<Budget>("Budgets").get().subscribe(data => {
+      data.query.where("dateCreated","==",budget.dateCreated).where("gid","==",budget.gid).get().then(res => {
+        res.docs.forEach(docRef => {
+          this.firestore.doc(`Budgets/${docRef.id}`).delete().then(_ => {
+            this.budgets.forEach((b,i) => {
+              if(b.gid == budget.gid && b.dateCreated == budget.dateCreated){
+                this.budgets.splice(i,1);
+              }
+            });
+          });
+        })
+      })
+      
+    })
+  }
   async getExpenses(gid: string){
     let expenses: Expense[] = []
     await this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
@@ -173,7 +188,8 @@ export class FirestoreService{
   }
 
   async createBudget(gid: string, name: string,  amount: number, category: string, schedule: string, desc: string) {
-    let newBudget: Budget = { gid, name, amount, category, schedule, desc };
+    let dateCreated = new Date();
+    let newBudget: Budget = { gid, name, amount, category, schedule, desc, dateCreated};
     await this.firestore.collection<Budget>("Budgets").add(newBudget).then(_ => {
       this.budgets.unshift(newBudget);
     });

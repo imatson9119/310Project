@@ -5,4 +5,5 @@ export interface Budget{
     category: string; 
     schedule: string; 
     desc: string;
+    dateCreated: Date;
 }
