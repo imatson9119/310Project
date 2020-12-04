@@ -45,6 +45,7 @@ export class FirestoreService{
   async getGroupMembers(gid: string): Promise<string[]>{
     return (await this.firestore.doc<Group>(`Groups/${gid}`).get().toPromise()).data().users;
   }
+
   refreshExpenses(){
     console.log(this.curGroupID);
     if(this.curGroupID){
@@ -55,7 +56,10 @@ export class FirestoreService{
       })
     }
   }
+
   refreshRenderedExpenses(query: string = '', userMap: Object = {}){
+    //console.log(this.getLastMonthExpenses());
+   
     let renderedExpenses: Expense[] = []
     if(query == ''){
       renderedExpenses = this.expenses;
@@ -72,7 +76,9 @@ export class FirestoreService{
       });
     }
     this.renderedExpenses = renderedExpenses;
+    console.log(this.getThisMonthExpenses());
   }
+
   deleteExpense(expense: Expense){
     this.updateBalances(expense.owner,expense.uids,-expense.amount);
     this.firestore.collection<Expense>("Expenses").get().subscribe(data => {
@@ -245,11 +251,64 @@ export class FirestoreService{
     }
     return totalSpent;
   }
+
   inRange(interval: string,date: any){
     const diffTime = Math.abs(date.seconds - ((new Date()).getTime()/1000));
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) <= this.timeIntervals[interval]; 
   }
 
+  getLastMonthExpenses(){
+     var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+     var now = new Date();
+     var thisMonth = months[now.getMonth()];
+     var totalLastMonth = 0;
+     for(var i = 0; i < this.expenses.length; i++)
+     {
+       if (this.expenses[i].date.getMonth() == (thisMonth - 1)){
+          totalLastMonth = totalLastMonth + this.expenses[i].amount;
+       }
+     }
+     return totalLastMonth;
+  }
+
+  getThisMonthExpenses(){
+    //var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    console.log("AHH");
+    let transDate = new Date (this.expenses[0].date).toDateString();
+    //console.log(this.expenses[0].date.toDateString());
+    console.log(transDate);
+
+    var now = new Date();
+    //var thisMonth = now.getDay();
+    console.log(now.getDate());
+    var totalThisMonth = 0;
+    console.log(this.expenses.length);
+    var i = 0;
+    //while ( i < now.getDate() ) {
+    console.log(this.expenses[i].amount);
+    for(var i = 0; i < this.expenses.length; i++)
+    {
+      //if(this.expenses[i].date. / (1000 * 60 * 60 * 24))
+    }
+    if(this.expenses[i].uids.includes(this.curUID))
+    { 
+      totalThisMonth = totalThisMonth + this.expenses[i].amount;
+      console.log(totalThisMonth);
+    }
+    
+    /*
+    if (this.expenses[i].date.getMonth() == (thisMonth)) {
+      totalThisMonth = totalThisMonth + this.expenses[i].amount;
+    }
+    */
+    //}
+    console.log(totalThisMonth);
+    return totalThisMonth;
+  }
+
+  compareMonths(){
+    return (this.getThisMonthExpenses() - this.getLastMonthExpenses());
+  }
 
   async removeUserDebts(uid: string){
     await this.firestore.doc(`users/${uid}`).update({
