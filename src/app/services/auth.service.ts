@@ -91,16 +91,16 @@ export class AuthService {
           if(this.userGroup){
             this.afs.getUsers(this.userGroup.users).then(users => {
               this.setGroupMembers(users);
-              this.router.navigate(['/budgeting']);
+              this.router.navigate(['/recent-expenses']);
             })
           }
           else if(this.user.uid){
             this.setGroupMembers([this.user]);
-            this.router.navigate(['/budgeting']);
+            this.router.navigate(['/recent-expenses']);
           }
         });
       } else{
-        this.router.navigate(['/budgeting']);
+        this.router.navigate(['/recent-expenses']);
       }
       
     });

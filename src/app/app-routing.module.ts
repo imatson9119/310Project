@@ -23,9 +23,9 @@ const routes: Routes = [
    { path: "", redirectTo: "recent-expenses", pathMatch: "full" },
    { path: "menu", component: MenuComponent },
    { path: "login", component: LoginComponent },
-   { path: "reporting", component: ReportingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
-   { path: "budgeting", component: BudgetingComponent/*, canActivate: [LoggedInRouteGuard]*/ },
-   { path: "recent-expenses", component: RecentExpensesComponent/*, canActivate: [LoggedInRouteGuard] */},
+   { path: "reporting", component: ReportingComponent, canActivate: [LoggedInRouteGuard] },
+   { path: "budgeting", component: BudgetingComponent, canActivate: [LoggedInRouteGuard] },
+   { path: "recent-expenses", component: RecentExpensesComponent, canActivate: [LoggedInRouteGuard] },
 ];
 
 @NgModule({
