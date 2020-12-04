@@ -1,5 +1,6 @@
 <div class = container>
-<h1>Create Expense</h1>
+<h1 *ngIf = '!this.newExpenseForm.value.isGain'>Create Expense</h1>
+<h1 *ngIf = 'this.newExpenseForm.value.isGain'>Create Payment</h1>
 <form [formGroup]="newExpenseForm" (ngSubmit)="onSubmit()">
     <mat-form-field class = 'amount-field'>
         <div matPrefix><b>$ &nbsp;</b></div>
@@ -18,6 +19,7 @@
             
         </mat-select>
     </mat-form-field>
+    
 
     <br *ngIf = '!this.newExpenseForm.value.isGain'>
 
