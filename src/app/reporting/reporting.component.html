@@ -1,38 +1,47 @@
 <div class = 'main-container'>
     <app-sidenav></app-sidenav>
-    <overlay-scrollbars class = 'content-window scroll' [options]="{ scrollbars: { autoHide: 'scroll' } }">
-        <div *ngIf = 'this.auth.userGroupID' class = 'inner-section'>
+    <div class = 'content-window'>
+        <div class = 'inner-section'>
             <h1>Reporting</h1> 
-            <div class = 'debt-summary'>
-                <div style='margin-bottom: 30px;'>
-                    <span *ngIf = 'this.incomingDebt.length + this.outgoingDebt.length == 0'>
-                        Congrats, you're all settled up!
-                    </span>
-                    <div *ngIf = 'this.debtTotal > 0'>
-                        You owe <b></b><span class = 'owe'>${{this.debtTotal.toFixed(2)}}</span>
+            <overlay-scrollbars class = 'scroll' [options]="{ scrollbars: { autoHide: 'scroll' } }">
+                <div *ngIf = 'this.auth.userGroupID' class = 'inner-section'>
+                    
+                    <div class = 'debt-summary'>
+                        <div style='margin-bottom: 30px;'>
+                            <span *ngIf = 'this.incomingDebt.length + this.outgoingDebt.length == 0'>
+                                Congrats, you're all settled up!
+                            </span>
+                            <div *ngIf = 'this.debtTotal > 0'>
+                                You owe <b></b><span class = 'owe'>${{this.debtTotal.toFixed(2)}}</span>
+                            </div>
+                            <div *ngIf = "this.debtTotal < 0">
+                                You are owed <span class = 'owed'>${{(this.debtTotal * -1).toFixed(2)}}</span>
+                            </div>
+                        </div>
+                        <div class = 'debt-list'>
+                            <div *ngFor = "let debt of this.incomingDebt; let i = index" class = 'debt-item'>
+                                <span class = 'owed'>${{(debt.debt).toFixed(2)}}</span> from {{debt.name}}
+                            </div>
+                            <div *ngFor = "let debt of this.outgoingDebt; let i = index" class = 'debt-item'>
+                                <span class = 'owe'>${{(debt.debt).toFixed(2)}}</span> to {{debt.name}}
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf = "this.debtTotal < 0">
-                        You are owed <span class = 'owed'>${{(this.debtTotal * -1).toFixed(2)}}</span>
+                    <div *ngIf = 'this.netDebts && this.userMap' class = 'debt-graphic'>
+                        <div *ngFor =  'let user of this.uids; let i = index' class = 'bar-container' [style] = 'getContainerStyle(this.netDebts[user])'>
+                            <div class = 'bar-fill' [style] = 'getBarStyle(this.netDebts[user])' ></div>
+                            <span class = 'bar-text' [id] = '"text" + i' [style] = 'getTextStyle(this.netDebts[user],i)'>${{this.getPosDebt(user)}}</span>
+                            <img class = 'bar-icon' [src] = "this.userMap[user].photoURL">
+                        </div>
                     </div>
+                    <div class = 'spending-habits' *ngIf = 'this.userFreq != ""'>
+                        <div class = "emphasis habits-title"><div class = inner-text>Fun fact:</div></div>
+                        Most of your money goes towards <span class = emphasis>{{this.userFreq}}</span>, and most of your group's money goes towards <span class = emphasis>{{this.groupFreq}}</span>.
+                    </div>
+                    
                 </div>
-                <div class = 'debt-list'>
-                    <div *ngFor = "let debt of this.incomingDebt; let i = index" class = 'debt-item'>
-                        <span class = 'owed'>${{(debt.debt).toFixed(2)}}</span> from {{debt.name}}
-                    </div>
-                    <div *ngFor = "let debt of this.outgoingDebt; let i = index" class = 'debt-item'>
-                        <span class = 'owe'>${{(debt.debt).toFixed(2)}}</span> to {{debt.name}}
-                    </div>
-                </div>
-            </div>
-            <div *ngIf = 'this.netDebts && this.userMap' class = 'debt-graphic'>
-                <div *ngFor =  'let user of this.uids; let i = index' class = 'bar-container' [style] = 'getContainerStyle(this.netDebts[user])'>
-                    <div class = 'bar-fill' [style] = 'getBarStyle(this.netDebts[user])' ></div>
-                    <span class = 'bar-text' [id] = '"text" + i' [style] = 'getTextStyle(this.netDebts[user],i)'>${{this.getPosDebt(user)}}</span>
-                    <img class = 'bar-icon' [src] = "this.userMap[user].photoURL">
-                </div>
-            </div>
-            
+                
+            </overlay-scrollbars>
         </div>
-        <app-user-profile></app-user-profile>
-    </overlay-scrollbars>
+    </div>  <app-user-profile></app-user-profile>
 </div>

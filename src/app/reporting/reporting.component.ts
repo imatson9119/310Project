@@ -16,7 +16,9 @@ export class ReportingComponent implements OnInit {
   userMap: Object = null;
   netDebts: Object = null;
   uids: string[];
-
+  userFreq: string = null;
+  groupFreq: string = null;
+  
 
   groupMaxDebt: number = 0;
 
@@ -25,6 +27,41 @@ export class ReportingComponent implements OnInit {
   ngOnInit(): void {
     this.getDebts();
     this.afs.getBudgetSpending();
+    this.getSpendingHabits();
+  }
+  getSpendingHabits(){
+    let groupFreq = {};
+    let userFreq = {};
+    for(const type of this.afs.expenseTypes){
+      groupFreq[type] = 0;
+      userFreq[type] = 0;
+    }
+    for(const e of this.afs.expenses){
+      groupFreq[e.type] += Math.abs(e.amount);
+      if(e.owner == this.auth.user.uid){
+        userFreq[e.type] += Math.abs(e.amount); 
+      }
+    }
+    console.log(userFreq);
+    console.log(groupFreq);
+    let maxGroupType: string = null;
+    let maxGroup = 0;
+    let maxUserType: string = null;
+    let maxUser = 0;
+    for (const [type,freq] of Object.entries(groupFreq)) {
+      if(Number(freq) > maxGroup){
+        maxGroupType = type;
+        maxGroup = Number(freq);
+      }
+    }
+    for (const [type,freq] of Object.entries(userFreq)) {
+      if(Number(freq) > maxUser){
+        maxUserType = type;
+        maxUser = Number(freq);
+      }
+    }
+    this.groupFreq = maxGroupType;
+    this.userFreq = maxUserType;
   }
   getNetDebts(){
     let netDebts = {};
