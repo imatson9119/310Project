@@ -9,18 +9,18 @@
                         Congrats, you're all settled up!
                     </span>
                     <div *ngIf = 'this.debtTotal > 0'>
-                        You owe <b></b><span class = 'owe'>${{this.debtTotal}}</span>
+                        You owe <b></b><span class = 'owe'>${{this.debtTotal.toFixed(2)}}</span>
                     </div>
                     <div *ngIf = "this.debtTotal < 0">
-                        You are owed <span class = 'owed'>${{this.debtTotal * -1}}</span>
+                        You are owed <span class = 'owed'>${{(this.debtTotal * -1).toFixed(2)}}</span>
                     </div>
                 </div>
                 <div class = 'debt-list'>
                     <div *ngFor = "let debt of this.incomingDebt; let i = index" class = 'debt-item'>
-                        <span class = 'owed'>${{debt.debt}}</span> from {{debt.name}}
+                        <span class = 'owed'>${{(debt.debt).toFixed(2)}}</span> from {{debt.name}}
                     </div>
                     <div *ngFor = "let debt of this.outgoingDebt; let i = index" class = 'debt-item'>
-                        <span class = 'owe'>${{debt.debt}}</span> to {{debt.name}}
+                        <span class = 'owe'>${{(debt.debt).toFixed(2)}}</span> to {{debt.name}}
                     </div>
                 </div>
             </div>
