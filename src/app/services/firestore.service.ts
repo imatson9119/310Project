@@ -235,10 +235,8 @@ export class FirestoreService{
     for(let j = 0; j < this.expenses.length; j++){
       let e = this.expenses[j];
       if(!this.inRange(b.schedule,e.date)){
-        //console.log(e);
         break;
       }
-      //console.log("Evaluating expense for equality to " + b.category);
       if(e.type == b.category){
         totalSpent+= e.amount;
       }

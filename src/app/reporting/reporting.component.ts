@@ -72,7 +72,6 @@ export class ReportingComponent implements OnInit {
           if(user.uid == uid){
             for (const debt of Object.values(user.debts)) {
               netDebt += Number(debt);
-              
             };
           }
           else{
